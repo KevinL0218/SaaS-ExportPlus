@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--1. 注解扫描，扫描web包-->
+    <context:component-scan base-package="cn.itcast.web"/>
+
+    <!--2. 配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--3. 开启注解驱动-->
+    <mvc:annotation-driven conversion-service="conversionServiceFactory"/>
+
+    <!--4. 放行静态资源-->
+    <mvc:default-servlet-handler/>
+
+    <!--5. 配置转换器工厂-->
+    <bean id="conversionServiceFactory"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <!--引用容器中的bean-->
+                <ref bean="stringToDateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <!--6. 开启Aop自动代理-->
+    <aop:aspectj-autoproxy/>
+
+    <!--7. 配置springmvc提供的文件上传解析器-->
+    <!--注意：这里的id必须固定，不能叫其他名字-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--<property name="maxUploadSize" value="10485760"/>-->
+        <property name="maxUploadSize" value="#{10*1024*1024}"/>
+    </bean>
+
+    <!--8、加载properties配置文件-->
+    <context:property-placeholder location="classpath:properties/qiniu.properties"/>
+
+    <!--dubbo相关配置-->
+    <!--A. 项目名称，唯一-->
+    <dubbo:application name="export_web_manager">
+        <!--解决：Address already in use 端口冲突 22222。-->
+        <!--原因：dubbo默认开启qos监控，会启动telnet支持，占用22222端口。-->
+        <dubbo:parameter key="qos.enable" value="false"/>
+    </dubbo:application>
+    <!--B. 连接注册中心地址-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <!--C. dubbo注解扫描，扫描@Reference-->
+    <dubbo:annotation package="cn.itcast.web"/>
+    <!--D. 配置启动时候不检查dubbo服务是否存在-->
+    <!--好处：我们可以直接启动服务消费者，服务提供者没有用到的不用启动.-->
+    <!--目前为止最终启动：export_cargo_service 即可-->
+    <dubbo:consumer check="false"/>
+</beans>
