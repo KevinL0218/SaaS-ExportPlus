@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled class file
 *.class
 
@@ -25,3 +26,9 @@ hs_err_pid*
 target
 *.iml
 .idea
+=======
+target
+*.class
+*.idea
+*.iml
+>>>>>>> cc78dac... 项目一实战初始化
