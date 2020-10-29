@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路径</title>
+</head>
+<body>
+    <!--
+        路径：
+          1、<a href="/company/list">测试</a>
+            / 斜杠开头，绝对路径的写法
+              相对于：E:\app\apache-tomcat-8.5.31\webapps
+              所以： / 后面跟的是项目名称
+
+          2、<a href="company/list">测试3:相对路径</a>
+             相对于：访问的url
+             举例：通过控制器转发到当前的url地址
+                  http://localhost:8080/aa/bb -----》url.html
+                  然后在url.html使用相对路径，相对于：http://localhost:8080/aa
+             所以：最后的地址是http://localhost:8080/aa/company/list
+
+    -->
+    <a href="http://localhost:8080/company/list">测试1</a>  <br>
+    <a href="/company/list">测试2:同上</a>  <br>
+
+    <a href="company/list">测试3:相对路径</a>  <br>
+</body>
+</html>
