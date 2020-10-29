@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace 指定对哪个dao的接口进行映射-->
+<mapper namespace="cn.itcast.dao.system.DeptDao">
+    
+    <resultMap id="BaseResultMap" type="cn.itcast.domain.system.Dept">
+        <result property="id" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="state" column="state"/>
+        <result property="companyId" column="company_id"/>
+        <result property="companyName" column="company_name"/>
+        <!--
+            association 一对一关联映射
+                property 指定要映射的属性
+                column   指定外键字段 (自动作为select对应的查询sql的查询条件)
+                select   根据部门id查询获取部门对象，赋值给parent属性
+        -->
+        <association
+                property="parent" column="parent_id"
+                javaType="cn.itcast.domain.system.Dept"
+                select="cn.itcast.dao.system.DeptDao.findById"
+        />
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT * FROM pe_dept WHERE company_id=#{companyId}
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM pe_dept WHERE dept_id=#{id}
+    </select>
+
+    <insert id="save">
+        insert into pe_dept(dept_id,dept_name,state,company_id,company_name,parent_id)
+        values(#{id},#{deptName},#{state},#{companyId},#{companyName},
+          <choose>
+              <when test="parent != null and parent.id != ''">#{parent.id}</when>
+              <otherwise>NULL</otherwise>
+          </choose>
+        )
+    </insert>
+
+    <insert id="update">
+        update pe_dept
+        set
+          dept_name=#{deptName},
+          state=#{state},
+          company_id=#{companyId},
+          company_name=#{companyName},
+          parent_id=
+          <choose>
+               <when test="parent != null and parent.id != ''">#{parent.id}</when>
+               <otherwise>NULL</otherwise>
+           </choose>
+        where dept_id=#{id}
+    </insert>
+
+    <select id="findByParent" resultMap="BaseResultMap">
+        SELECT * FROM pe_dept WHERE parent_id=#{id}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM pe_dept WHERE dept_id=#{id}
+    </delete>
+</mapper>
