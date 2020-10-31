@@ -179,4 +179,31 @@ public class Contract extends BaseEntity {
 	public void setExtNum(Integer extNum) {
 		this.extNum = extNum;
 	}
+
+	@Override
+	public String toString() {
+		return "Contract{" +
+				"id='" + id + '\'' +
+				", offeror='" + offeror + '\'' +
+				", contractNo='" + contractNo + '\'' +
+				", signingDate=" + signingDate +
+				", inputBy='" + inputBy + '\'' +
+				", checkBy='" + checkBy + '\'' +
+				", inspector='" + inspector + '\'' +
+				", totalAmount=" + totalAmount +
+				", crequest='" + crequest + '\'' +
+				", customName='" + customName + '\'' +
+				", shipTime=" + shipTime +
+				", importNum=" + importNum +
+				", deliveryPeriod=" + deliveryPeriod +
+				", oldState=" + oldState +
+				", outState=" + outState +
+				", tradeTerms='" + tradeTerms + '\'' +
+				", printStyle='" + printStyle + '\'' +
+				", remark='" + remark + '\'' +
+				", state=" + state +
+				", proNum=" + proNum +
+				", extNum=" + extNum +
+				'}';
+	}
 }

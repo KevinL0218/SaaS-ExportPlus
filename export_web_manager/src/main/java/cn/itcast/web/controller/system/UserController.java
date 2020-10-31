@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,13 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/edit")
     public String edit(User user){
+        //设置密码加盐加密
+        String password = user.getPassword();
+        if (password.length() != 32) {
+            String email = user.getEmail();
+            String encodePwd = new Md5Hash(password, email).toString();
+            user.setPassword(encodePwd);
+        }
         // 设置企业信息
         user.setCompanyId(getLoginCompanyId());
         user.setCompanyName(getLoginCompanyName());
@@ -88,7 +96,7 @@ public class UserController extends BaseController {
             Map<String,String> map = new HashMap<>();
             map.put("email",user.getEmail());
             map.put("title","新员工入职提醒");
-            map.put("content","欢迎你来到SaasExport大家庭，我们是一个由激情的团队！");
+            map.put("content","欢迎你来到SaasExport大家庭，我们是一个有激情的团队！");
             // 发送消息
             rabbitTemplate.convertAndSend("myExchange","msg.email",map);
         } else {
