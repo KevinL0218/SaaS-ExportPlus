@@ -15,8 +15,7 @@ public interface ExportService {
     /**
      * 分页查询
      */
-    PageInfo<Export> findByPage(
-            ExportExample exportExample, int pageNum, int pageSize);
+    PageInfo<Export> findByPage(ExportExample exportExample, int pageNum, int pageSize);
 
     /**
      * 查询所有

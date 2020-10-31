@@ -19,39 +19,39 @@
     <script src="${ctx}/plugins/jQuery/jquery-2.2.3.min.js"></script>
 </head>
 <script>
+    function view() {
+        var id = getCheckId();
+        if(id) {
+            location.href="${ctx}/cargo/invoice/toView.do?id="+id;
+        }else{
+            alert("请勾选待处理的记录，且每次只能勾选一个")
+        }
+    }
+
     function deleteById() {
-        var id = getCheckId()
+        var id = getCheckId();
         if(id) {
             if(confirm("你确认要删除此条记录吗？")) {
-                location.href="${ctx}/cargo/export/delete.do?id="+id;
+                location.href="${ctx}/cargo/invoice/delete.do?id="+id;
             }
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
-    function submit() {
-        var id = getCheckId()
+    function printExcel() {
+        var id = getCheckId();
         if(id) {
-            location.href="${ctx}/cargo/export/submit.do?id="+id;
+            location.href="${ctx}/cargo/invoice/exportExcel.do?id="+id;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
-    function cancel() {
-        var id = getCheckId()
+    function printPDF() {
+        var id = getCheckId();
         if(id) {
-            location.href="${ctx}/cargo/export/cancel.do?id="+id;
-        }else{
-            alert("请勾选待处理的记录，且每次只能勾选一个")
-        }
-    }
-
-    function exportE() {
-        var id = getCheckId()
-        if(id) {
-            location.href="${ctx}/cargo/export/exportE.do?id="+id;
+            location.href="${ctx}/cargo/invoice/exportPDF.do?id="+id;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
@@ -62,7 +62,7 @@
 <section class="content-header">
     <h1>
         货运管理
-        <small>出口报运</small>
+        <small>发票管理</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -76,7 +76,7 @@
     <!-- .box-body -->
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">报运单列表</h3>
+            <h3 class="box-title">发票管理列表</h3>
         </div>
 
         <div class="box-body">
@@ -88,10 +88,12 @@
                 <div class="pull-left">
                     <div class="form-group form-inline">
                         <div class="btn-group">
+                            <button type="button" class="btn btn-default" title="新建" onclick='location.href="${ctx}/cargo/invoice/toAdd.do"'><i class="fa fa-file-o"></i> 新建</button>
+                            <button type="button" class="btn btn-default" title="查看" onclick='view()'><i class="fa  fa-eye-slash"></i> 查看</button>
                             <button type="button" class="btn btn-default" title="删除" onclick='deleteById()'><i class="fa fa-trash-o"></i> 删除</button>
-                            <button type="button" class="btn btn-default" title="提交" onclick='submit()'><i class="fa fa-file-o"></i> 提交</button>
-                            <button type="button" class="btn btn-default" title="取消" onclick='cancel()'><i class="fa fa-file-o"></i> 取消</button>
-                            <button type="button" class="btn btn-default" title="电子报运" onclick="exportE()"><i class="fa fa-refresh"></i> 电子报运</button>
+                            <button type="button" class="btn btn-default" title="导出PDF" onclick='printPDF()'><i class="fa fa-print"></i> 导出PDF</button>
+                            <button type="button" class="btn btn-default" title="导出Excel" onclick='printExcel()'><i class="fa fa-print"></i> 导出Excel</button>
+                            <button type="button" class="btn btn-default" title="财务报运单" onclick="document.getElementById('exportForm').submit()"><i class="fa fa-refresh"></i> 财务报运单</button>
                         </div>
                     </div>
                 </div>
@@ -107,44 +109,27 @@
                 <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                     <thead>
                     <tr>
-                        <td><input type="checkbox" name="selid" onclick="checkAll('id',this)"></td>
-                        <th class="sorting">报运号</th>
-                        <th class="sorting">货物/附件</th>
-                        <th class="sorting">信用证号</th>
-                        <th class="sorting">收货地址</th>
-                        <th class="sorting">装运港</th>
-                        <th class="sorting">目的港</th>
-                        <th class="sorting">运输方式</th>
-                        <th class="sorting">价格条件</th>
-                        <th class="sorting">状态</th>
-                        <th class="text-center">操作</th>
+                        <th class="" style="padding-right:0px;"></th>
+                        <th class="sorting">发票编号</th>
+                        <th class="sorting">报运合同号</th>
+                        <th class="sorting">贸易条款</th>
+                        <th class="sorting">发票金额</th>
+                        <th class="sorting">发票时间</th>
+                        <th class="sorting">发票状态</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${pageInfo.list}" var="o" varStatus="status">
+                    <c:forEach items="${pageInfo.list}"  var="o" varStatus="status">
                         <tr class="odd" onmouseover="this.className='highlight'" onmouseout="this.className='odd'" >
                             <td><input type="checkbox" name="id" value="${o.id}"/></td>
                             <td>${o.id}</td>
-                            <td align="center">
-                                ${o.proNum}/${o.extNum}
-                            </td>
-                            <td>${o.lcno}</td>
-                            <td>${o.consignee}</td>
-                            <td>${o.shipmentPort}</td>
-                            <td>${o.destinationPort}</td>
-                            <td>${o.transportMode}</td>
-                            <td>${o.priceCondition}</td>
+                            <td>${o.scNo}</td>
+                            <td>${o.tradeTerms}</td>
+                            <td>${o.money}</td>
+                            <td>${o.createTime}</td>
                             <td>
-                                <c:if test="${o.state==0}">草稿</c:if>
-                                <c:if test="${o.state==1}"><font color="green">已上报</font></c:if>
-                                <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>
-                            </td>
-                            <td>
-                                <a href="${ctx }/cargo/export/toView.do?id=${o.id}">[查看]</a>
-                                <a href="${ctx }/cargo/export/toUpdate.do?id=${o.id}">[编辑]</a>
-                                <c:if test="${o.state==2}">
-                                    <a href="/cargo/export/exportPdf.do?id=${o.id}">[下载]</a>
-                                </c:if>
+                                <c:if test="${o.invoiceStatus==0}">草稿</c:if>
+                                <c:if test="${o.invoiceStatus==1}"><font color="green">已生成财务报运单</font></c:if>
                             </td>
                         </tr>
                     </c:forEach>
@@ -157,7 +142,7 @@
         <!-- .box-footer-->
         <div class="box-footer">
             <jsp:include page="../../common/page.jsp">
-                <jsp:param value="/cargo/export/list.do" name="pageUrl"/>
+                <jsp:param value="/cargo/invoice/list.do" name="pageUrl"/>
             </jsp:include>
         </div>
         <!-- /.box-footer-->
