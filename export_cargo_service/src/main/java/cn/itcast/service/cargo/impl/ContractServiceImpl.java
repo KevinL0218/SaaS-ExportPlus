@@ -1,8 +1,9 @@
 package cn.itcast.service.cargo.impl;
 
 import cn.itcast.dao.cargo.ContractDao;
-import cn.itcast.domain.cargo.Contract;
-import cn.itcast.domain.cargo.ContractExample;
+import cn.itcast.dao.cargo.ContractProductDao;
+import cn.itcast.dao.cargo.ExtCproductDao;
+import cn.itcast.domain.cargo.*;
 import cn.itcast.service.cargo.ContractService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,10 @@ public class ContractServiceImpl implements ContractService{
 
     @Autowired
     private ContractDao contractDao;
+    @Autowired
+    private ContractProductDao contractProductDao;
+    @Autowired
+    ExtCproductDao extCproductDao;
 
     @Override
     public PageInfo<Contract> findByPage(ContractExample contractExample,
@@ -57,8 +62,35 @@ public class ContractServiceImpl implements ContractService{
     }
 
     @Override
-    public void delete(String id) {
-        contractDao.deleteByPrimaryKey(id);
+    public Boolean delete(String id) {
+        //已经提交（state 为1，2）的合同不能删除
+        //根据id查询购销合同信息
+        Contract contract = contractDao.selectByPrimaryKey(id);
+        Integer state = contract.getState();
+        if (state==1 || state==2){
+            //不能删除
+            return false;
+        }else {
+            //删除其购销合同下所有的货物和附件
+            //通过购销合同id 删除货物
+            ContractProductExample pExample = new ContractProductExample();
+            pExample.createCriteria().andContractIdEqualTo(id);
+            List<ContractProduct> contractProducts = contractProductDao.selectByExample(pExample);
+            for (ContractProduct product : contractProducts) {
+                contractProductDao.deleteByPrimaryKey(product.getId());
+            }
+
+            //通过购销合同id 删除对应下的附件
+            ExtCproductExample eExample = new ExtCproductExample();
+            eExample.createCriteria().andContractIdEqualTo(id);
+            List<ExtCproduct> extCProducts = extCproductDao.selectByExample(eExample);
+            for (ExtCproduct extCProduct : extCProducts) {
+                extCproductDao.deleteByPrimaryKey(extCProduct.getId());
+            }
+            //删除合同
+            contractDao.deleteByPrimaryKey(id);
+            return true;
+        }
     }
 
     @Override

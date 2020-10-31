@@ -17,7 +17,7 @@ import java.util.Properties;
 public class MailUtil {
 
     // 发件人
-    private static final String FROM = "yuanjie8090@163.com";
+    private static final String FROM = "17806707053@163.com";
     // 邮件发送服务器地址
     private static final String SMTP = "smtp.163.com";//smtp.qq.com
 
@@ -52,7 +52,7 @@ public class MailUtil {
         //8.准备发送，得到火箭
         Transport transport = session.getTransport("smtp");
         //9.设置火箭的发射目标
-        transport.connect(SMTP, FROM, "czbk123456");
+        transport.connect(SMTP, FROM, "DDVSZUBESIGLKQFI");
         //10.发送
         transport.sendMessage(message, message.getAllRecipients());
 

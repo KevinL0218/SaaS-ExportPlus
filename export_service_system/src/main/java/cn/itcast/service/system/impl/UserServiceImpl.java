@@ -80,4 +80,17 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userDao.findByEmail(email);
     }
+
+
+    /**
+     * 根据部门id查询管理者，用于购销合同审单人的下拉显示
+     *
+     * @param deptId
+     * @paramCompanyId
+     * @return
+     */
+    @Override
+    public List<User> findUserByDeptId(String deptId, String companyId) {
+        return userDao.findUserByDeptId(deptId,companyId);
+    }
 }

@@ -34,4 +34,7 @@ public interface UserDao {
 
 	//根据email查询
     User findByEmail(String email);
+
+    //根据部门id查询管理者，用于购销合同审单人的下拉显示
+    List<User> findUserByDeptId(@Param("deptId") String deptId, @Param("companyId") String companyId);
 }
