@@ -5,12 +5,19 @@ import cn.itcast.dao.system.UserDao;
 import cn.itcast.domain.system.Module;
 import cn.itcast.domain.system.User;
 import cn.itcast.service.system.ModuleService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +31,71 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public List<Module> findAll() {
-        return moduleDao.findAll();
+        //1.创建配置对象
+        JedisPoolConfig config = new JedisPoolConfig();
+        //设置参数：最大连接数
+        config.setMaxTotal(20);
+        //设置最长等待时间
+        config.setMaxWaitMillis(2000);
+        //2.创建连接池对象
+        JedisPool pool = new JedisPool(config, "localhost", 6379);
+        //3.从连接池中获取连接
+        Jedis jedis = pool.getResource();
+
+        //定义集合保存权限
+        List<Module> moduleList = null;
+        //创建转换对象
+        ObjectMapper mapper = new ObjectMapper();
+        //获取权限json字符串
+        String modules = jedis.get("modules");
+        //判断是否为空
+        if (modules == null) {
+            //从MySql中查询权限
+            moduleList = moduleDao.findAll();
+            System.out.println("从MySql中查询权限");
+            try {
+                //将集合转为json字符串
+                String json = mapper.writeValueAsString(moduleList);
+                //保存到redis
+                jedis.set("modules",json);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }else {
+            //将权限json字符串转为List
+            try {
+                moduleList = mapper.readValue(modules, List.class);
+                System.out.println("从Redis中查询权限");
+
+                //定义集合保存权限，ObjectMapper封装的集合元素类型不是Module，所以定义新的集合
+                List<Module> list = new ArrayList<>();
+                //定义权限对象
+                Module module = null;
+                /*
+                遍历使用ObjectMapper封装的集合，该集合的每个元素是LinkedHashMap，不能直接遍历
+                需要转为json字符串，再转为对象，这里不要用增强型for循环
+                */
+                for (int i = 0; i < moduleList.size(); i++) {
+                    try {
+                        //将LinkedHashMap转为json
+                        String json = mapper.writeValueAsString(moduleList.get(i));
+                        //将json转为Module对象
+                        module = mapper.readValue(json, Module.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //添加进集合
+                    list.add(module);
+                }
+                moduleList = list;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //关闭连接
+        jedis.close();
+        //返回结果
+        return moduleList;
     }
 
     @Override

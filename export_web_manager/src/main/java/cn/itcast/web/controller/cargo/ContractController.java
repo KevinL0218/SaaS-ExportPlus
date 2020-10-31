@@ -21,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import java.util.Date;
+import java.util.List;
+
 @Controller
 @RequestMapping("/cargo/contract")
 @Log4j
@@ -37,7 +40,7 @@ public class ContractController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(@RequestParam(defaultValue = "1") Integer pageNum,
-                       @RequestParam(defaultValue = "5") Integer pageSize) {
+                       @RequestParam(defaultValue = "5") Integer pageSize){
         log.info("执行购销合同列表查询开始....");
 
         // 创建查询对象
@@ -57,23 +60,25 @@ public class ContractController extends BaseController {
         // 获取用户等级
         Integer degree = user.getDegree();
         // 判断用户等级
-        if (degree == 4) {
+        if (degree == 4){
             //1、普通员工登陆，degree=4,只能查看自己创建的购销合同
             //SELECT * FROM co_contract WHERE create_by='登陆用户的id'
             criteria.andCreateByEqualTo(user.getId());
             pageInfo = contractService.findByPage(example, pageNum, pageSize);
-        } else if (degree == 3) {
+        }
+        else if (degree == 3){
             //2、部门经理登陆，degree=3,可以查看自己部门下所有员工创建的购销合同
             //SELECT * FROM co_contract WHERE create_dept='部门id(登陆用户)'
             criteria.andCreateDeptEqualTo(user.getDeptId());
             pageInfo = contractService.findByPage(example, pageNum, pageSize);
-        } else if (degree == 2) {
+        }
+        else if (degree == 2) {
             // 3. 大部门经理登陆，degree=2，可以查看自己部门及其所有子部门创建的购销合同
             //SELECT * FROM co_contract WHERE FIND_IN_SET(create_dept,getDeptChild('登陆用户的部门id'))
-            pageInfo = contractService.findContractByDeptId(user.getDeptId(), pageNum, pageSize);
+            pageInfo = contractService.findContractByDeptId(user.getDeptId(),pageNum,pageSize);
         }
 
-        request.setAttribute("pageInfo", pageInfo);
+        request.setAttribute("pageInfo",pageInfo);
         return "cargo/contract/contract-list";
     }
 
@@ -181,7 +186,6 @@ public class ContractController extends BaseController {
 
             return message;
     }
-
     @RequestMapping("/cancel")
     public String cancel(String id) {
         /*提交：修改购销合同状态为0, 草稿*/
@@ -196,4 +200,3 @@ public class ContractController extends BaseController {
         return "redirect:/cargo/contract/list";
     }
 }
-
