@@ -43,12 +43,18 @@
     <!--2、创建SecurityManager对象,注入realm-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
-    <!--3、创建自定义的realm类，注入凭证匹配器，用于自动对用户输入的密码进行加密-->
+    <!--3.缓存管理器-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache.xml"/>
+    </bean>
+    <!--4、创建自定义的realm类，注入凭证匹配器，用于自动对用户输入的密码进行加密-->
     <bean id="myRealm" class="cn.itcast.web.shiro.AuthRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
     </bean>
+
 
     <!--4. 创建凭证匹配器，用于自动对用户输入的密码进行加密
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -66,4 +72,6 @@
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
+
+
 </beans>

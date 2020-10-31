@@ -45,7 +45,7 @@ public interface ContractService {
     /**
      * 删除
      */
-    void delete(String id);
+    Boolean delete(String id);
 
     /**
      * 根据登陆用户的部门id，查询当前部门及其子部门创建的购销合同

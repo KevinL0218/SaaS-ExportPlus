@@ -51,4 +51,12 @@ public interface UserService {
      * @return
      */
     User findByEmail(String email);
+
+    /**
+     * 根据部门id查询管理者，用于购销合同审单人的下拉显示
+     * @param deptId
+     * @param companyId
+     * @return
+     */
+    List<User> findUserByDeptId(String deptId, String companyId);
 }

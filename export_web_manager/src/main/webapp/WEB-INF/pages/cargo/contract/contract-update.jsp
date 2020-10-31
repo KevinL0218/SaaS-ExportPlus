@@ -40,6 +40,7 @@
             <div class="panel-heading">购销合同信息</div>
             <form id="editForm" action="${ctx}/cargo/contract/edit.do" method="post">
                 <input type="hidden" name="id" value="${contract.id}">
+                <input type="hidden" id="checkBy" name="checkBy" value="${user.userName}">
                 <div class="row data-type" style="margin: 0px">
                     <div class="col-md-2 title">收购方</div>
                     <div class="col-md-4 data">
@@ -69,7 +70,13 @@
 
                     <div class="col-md-2 title">审单人</div>
                     <div class="col-md-4 data">
-                        <input type="text" class="form-control" placeholder="审单人" name="checkBy" value="${contract.checkBy}">
+                        <%--<input type="text" class="form-control" placeholder="审单人" name="checkBy" value="${contract.checkBy}">--%>
+                        <select class="form-control" onchange="document.getElementById('checkBy').value=this.options[this.selectedIndex].text" name="userId">
+                        <option value="${contract.checkBy}">${contract.checkBy==""?"请选择":contract.checkBy}</option>
+                        <c:forEach items="${userList}" var="item">
+                            <option ${contract.checkBy == item.userName ?'selected':''} value="${item.id}">${item.userName}</option>
+                        </c:forEach>
+                    </select>
                     </div>
 
                     <div class="col-md-2 title">验货员</div>

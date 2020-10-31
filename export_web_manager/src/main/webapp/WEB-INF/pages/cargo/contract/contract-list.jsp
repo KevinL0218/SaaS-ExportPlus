@@ -20,10 +20,22 @@
 </head>
 <script>
     function deleteById() {
-        var id = getCheckId()
+        var id = getCheckId();
         if(id) {
             if(confirm("你确认要删除此条记录吗？")) {
-                location.href="${ctx}/cargo/contract/delete.do?id="+id;
+                $.ajax({
+                    url:"${ctx}/cargo/contract/delete?id="+id,
+                    dataType:"json",
+                    success:function (result) {
+                        if (result){
+                            //删除成功
+                            window.location.reload();
+                        }else {
+                            //删除失败
+                            alert("您当前选择的合同已经提交，无法删除！")
+                        }
+                    }
+                });
             }
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
@@ -33,14 +45,29 @@
     function submit() {
         var id = getCheckId()
         if(id) {
-            location.href="${ctx}/cargo/contract/submit.do?id="+id;
+            $.get({
+                url:"${ctx}/cargo/contract/submit?id="+id,
+                dataType:"json",
+                success:function (result) {
+                    //result==0，无权提交
+                    //result==1  状态为已提交或者已报运，无需再提交
+                    //result==2  提交成功，重新加载
+                    if (result==1){
+                        alert("状态为：已提交/已报运，无需再次提交")
+                    }else if (result==0) {
+                        alert("当前所选合同您无权提交，请重新选择")
+                    }else {
+                        location.reload();
+                    }
+                }
+            });
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
     function cancel() {
-        var id = getCheckId()
+        var id = getCheckId();
         if(id) {
             location.href="${ctx}/cargo/contract/cancel.do?id="+id;
         }else{
@@ -49,7 +76,7 @@
     }
 
     function view() {
-        var id = getCheckId()
+        var id = getCheckId();
         if(id) {
             location.href="${ctx}/cargo/contract/toView.do?id="+id;
         }else{
