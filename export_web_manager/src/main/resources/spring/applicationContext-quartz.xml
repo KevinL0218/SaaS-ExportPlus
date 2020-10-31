@@ -19,7 +19,7 @@
         <!--注意：日与周必须有一个是?问好-->
         <!--0/5  每5秒执行-->
         <!--0,1,2  第1秒、第2秒、第3秒执行-->
-        <property name="cronExpression" value="0/5 * * * * ?"/>
+        <property name="cronExpression" value="0/5 * * * * ? 2021"/>
     </bean>
 
     <!--4. 创建任务执行计划(执行入口)-->
