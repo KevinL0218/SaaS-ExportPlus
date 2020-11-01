@@ -1,0 +1,23 @@
+package cn.itcast.dao.cargo;
+
+import cn.itcast.domain.cargo.ShippingOrder;
+import cn.itcast.domain.cargo.ShippingOrderExample;
+
+import java.util.List;
+
+public interface ShippingOrderDao {
+
+    int deleteByPrimaryKey(String shippingOrderId);
+
+    int insert(ShippingOrder record);
+
+    int insertSelective(ShippingOrder record);
+
+    List<ShippingOrder> selectByExample(ShippingOrderExample example);
+
+    ShippingOrder selectByPrimaryKey(String shippingOrderId);
+
+    int updateByPrimaryKeySelective(ShippingOrder record);
+
+    int updateByPrimaryKey(ShippingOrder record);
+}

@@ -20,65 +20,38 @@
 </head>
 <script>
     function deleteById() {
-        var id = getCheckId();
+        var id = getCheckId()
         if(id) {
             if(confirm("你确认要删除此条记录吗？")) {
-                $.ajax({
-                    url:"${ctx}/cargo/contract/delete?id="+id,
-                    dataType:"json",
-                    success:function (result) {
-                        if (result){
-                            //删除成功
-                            window.location.reload();
-                        }else {
-                            //删除失败
-                            alert("您当前选择的合同已经提交，无法删除！")
-                        }
-                    }
-                });
+                location.href="${ctx}/cargo/contract/delete.do?id="+id;
             }
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
-    function submit() {
+/*    function submit() {
         var id = getCheckId()
         if(id) {
-            $.get({
-                url:"${ctx}/cargo/contract/submit?id="+id,
-                dataType:"json",
-                success:function (result) {
-                    //result==0，无权提交
-                    //result==1  状态为已提交或者已报运，无需再提交
-                    //result==2  提交成功，重新加载
-                    if (result==1){
-                        alert("状态为：已提交/已报运，无需再次提交")
-                    }else if (result==0) {
-                        alert("当前所选合同您无权提交，请重新选择")
-                    }else {
-                        location.reload();
-                    }
-                }
-            });
+            location.href="${ctx}/cargo/contract/submit.do?id="+id;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
     function cancel() {
-        var id = getCheckId();
+        var id = getCheckId()
         if(id) {
             location.href="${ctx}/cargo/contract/cancel.do?id="+id;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
-    }
+    }*/
 
     function view() {
-        var id = getCheckId();
-        if(id) {
-            location.href="${ctx}/cargo/contract/toView.do?id="+id;
+        var shippingOrderId = getCheckId()
+        if(shippingOrderId) {
+            location.href="${ctx}/cargo/contract/toView.do?shippingOrderId="+shippingOrderId;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
@@ -117,12 +90,10 @@
                 <div class="pull-left">
                     <div class="form-group form-inline">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" title="新建" onclick='location.href="${ctx}/cargo/contract/toAdd.do"'><i class="fa fa-file-o"></i> 新建</button>
                             <button type="button" class="btn btn-default" title="查看" onclick='view()'><i class="fa  fa-eye-slash"></i> 查看</button>
                             <button type="button" class="btn btn-default" title="删除" onclick='deleteById()'><i class="fa fa-trash-o"></i> 删除</button>
                             <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
-                            <button type="button" class="btn btn-default" title="提交" onclick="submit()"><i class="fa fa-retweet"></i> 提交</button>
-                            <button type="button" class="btn btn-default" title="取消" onclick="cancel()"><i class="fa fa-remove"></i> 取消</button>
+                            <button type="button" class="btn btn-default" title="导出" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 导出Excel/PDF</button>
                         </div>
                     </div>
                 </div>
@@ -141,28 +112,52 @@
                         <th class="" style="padding-right:0px;">
 
                         </th>
-                        <th class="sorting">客户名称</th>
-                        <th class="sorting">合同号</th>
-                        <th class="sorting">货物/附件</th>
-                        <th class="sorting">制单人</th>
-                        <th class="sorting">验货员</th>
-                        <th class="sorting">交货期限</th>
-                        <th class="sorting">船期</th>
-                        <th class="sorting">贸易条款</th>
-                        <th class="sorting">总金额</th>
+                        <th class="sorting">编号</th>
+                        <th class="sorting">运输方式</th>
+                        <th class="sorting">货主</th>
+                        <th class="sorting">提单抬头</th>
+                        <th class="sorting">正本通知人</th>
+                        <th class="sorting">信用证</th>
+                        <th class="sorting">装运港</th>
+                        <th class="sorting">转运港</th>
+                        <th class="sorting">卸货港</th>
+                        <th class="sorting">是否分批</th>
+                        <th class="sorting">是否转运</th>
+                        <th class="sorting">扼要说明</th>
                         <th class="sorting">状态</th>
-                        <th class="text-center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${pageInfo.list}" var="o" varStatus="status">
                         <tr>
-                            <td><input type="checkbox" name="id" value="${o.id}"/></td>
-                            <td>${o.customName}</td>
-                            <td><a href="${ctx}/cargo/contract/toView.do?id=${o.id}">${o.contractNo}</a></td>
+                            <td><input type="checkbox" name="id" value="${o.shippingOrderId}"/></td>
+                            <td>${o.orderType}</td>
+                            <td>${o.shipper}</td>
+                            <td>${o.consignee}</td>
+                            <td>${o.notifyParty}</td>
+                            <td>${o.lcNo}</td>
+                            <td>${o.portOfLoading}</td>
+                            <td>${o.portOfTrans}</td>
+                            <td>${o.portOfDischar}</td>
                             <td>
-                                ${o.proNum}/${o.extNum}
+                                <c:if test="${o.isBatch==0}">否</c:if>
+                                <c:if test="${o.isBatch==1}"><font color="green">是</font></c:if>
                             </td>
+                            <td>
+                                <c:if test="${o.isTrans==0}">否</c:if>
+                                <c:if test="${o.isTrans==1}"><font color="green">是</font></c:if>
+                            </td>
+
+                            <td>${o.remark}</td>
+
+                            <td>
+                                <c:if test="${o.state==0}">草稿</c:if>
+                                <c:if test="${o.state==1}"><font color="green">已开票</font></c:if>
+                            </td>
+
+
+                         <%--   <td><a href="${ctx}/cargo/contract/toView.do?id=${o.id}">${o.contractNo}</a></td>
+                            <td>${o.proNum}</td>
                             <td>${o.inputBy}</td>
                             <td>${o.inspector}</td>
                             <td><fmt:formatDate value="${o.deliveryPeriod}" pattern="yyyy-MM-dd"/></td>
@@ -174,11 +169,11 @@
                                 <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>
                             </td>
                             <td>
-                                <%--<a href="${ctx }/cargo/contract/toView.do?id=${o.id}">[查看详情]</a>--%>
+                                &lt;%&ndash;<a href="${ctx }/cargo/contract/toView.do?id=${o.id}">[查看详情]</a>&ndash;%&gt;
                                 <a href="${ctx }/cargo/contract/toUpdate.do?id=${o.id}">[编辑]</a>
                                 <a href="${ctx }/cargo/contractProduct/list.do?contractId=${o.id}">[货物]</a>
                                 <a href="${ctx }/cargo/contractProduct/toImport.do?contractId=${o.id}">[上传货物]</a>
-                            </td>
+                            </td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>

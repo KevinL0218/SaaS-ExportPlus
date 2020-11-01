@@ -56,6 +56,29 @@
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
+    function packing() {
+        var ids = "";
+        $("[name='id']:checked").each(function() {
+            ids += $(this).val() + ",";
+        });
+        if(ids) {
+            $.ajax({
+                url: "${ctx}/cargo/packing/goPacking.do?exportIds="+ids,
+                method: "post",
+                dataType: "json",
+                success: function (result) {
+                    if (result.flag == 1){
+                        alert(result.msg);
+                        window.location.reload();
+                    } else {
+                        location.href="${ctx}/cargo/packing/toPacking.do?exportIds="+ids;
+                    }
+                }
+            })
+        }else{
+            alert("请勾选待处理的记录")
+        }
+    }
 </script>
 <body>
 <div id="frameContent" class="content-wrapper" style="margin-left:0px;">
@@ -92,6 +115,7 @@
                             <button type="button" class="btn btn-default" title="提交" onclick='submit()'><i class="fa fa-file-o"></i> 提交</button>
                             <button type="button" class="btn btn-default" title="取消" onclick='cancel()'><i class="fa fa-file-o"></i> 取消</button>
                             <button type="button" class="btn btn-default" title="电子报运" onclick="exportE()"><i class="fa fa-refresh"></i> 电子报运</button>
+                            <button type="button" class="btn btn-default" title="生成装箱单" onclick="packing()"><i class="fa fa-file-o"></i> 生成装箱单</button>
                         </div>
                     </div>
                 </div>
@@ -161,8 +185,6 @@
             </jsp:include>
         </div>
         <!-- /.box-footer-->
-
-
     </div>
 
 </section>

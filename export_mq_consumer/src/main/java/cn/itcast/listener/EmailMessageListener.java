@@ -23,9 +23,9 @@ public class EmailMessageListener implements MessageListener {
             String title = jsonNode.get("title").asText();
             String content = jsonNode.get("content").asText();
 
-            System.out.println("获取队列中消息：" + email);
-            System.out.println("获取队列中消息：" + title);
-            System.out.println("获取队列中消息：" + content);
+            System.out.println("获取队列中消息email：" + email);
+            System.out.println("获取队列中消息title：" + title);
+            System.out.println("获取队列中消息content：" + content);
 
             // 发邮件
             MailUtil.sendMsg(email, title, content);

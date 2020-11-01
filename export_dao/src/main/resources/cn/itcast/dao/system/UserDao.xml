@@ -89,4 +89,19 @@
         SELECT * FROM pe_user WHERE email = #{email} limit 1
     </select>
 
+    <!--根据部门id查询管理者，用于购销合同审单人的下拉显示-->
+    <select id="findUserByDeptId" resultMap="BaseResultMap">
+        SELECT * FROM pe_user
+	        WHERE dept_id=#{deptId}
+	        AND company_id=#{companyId}
+	        AND degree IN(2,3)
+	        OR
+	        user_id IN
+	        (SELECT user_id FROM pe_user WHERE dept_id
+	        IN (SELECT parent_id FROM pe_dept
+	            WHERE dept_id=#{deptId}
+	            AND company_id=#{companyId})
+	        AND degree =2)
+    </select>
+
 </mapper>

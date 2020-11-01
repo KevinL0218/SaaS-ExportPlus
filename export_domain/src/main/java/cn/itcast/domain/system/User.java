@@ -33,6 +33,7 @@ public class User implements Serializable {
     private Integer orderNo;
     private String companyId;
     private String companyName;
+    //
 
 
     public String getId() {
