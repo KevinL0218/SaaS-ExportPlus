@@ -1,7 +1,9 @@
 package cn.itcast.web.controller;
 
+import cn.itcast.domain.system.Email;
 import cn.itcast.domain.system.Module;
 import cn.itcast.domain.system.User;
+import cn.itcast.service.system.EmailService;
 import cn.itcast.service.system.ModuleService;
 import cn.itcast.service.system.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -23,6 +25,8 @@ public class LoginController extends BaseController {
     private UserService userService;
     @Autowired
     private ModuleService moduleService;
+    @Autowired
+    private EmailService emailService;
 
     /* 普通的登陆认证
     @RequestMapping("/login")
@@ -77,6 +81,9 @@ public class LoginController extends BaseController {
             // 动态菜单：查询登陆用户的权限
             List<Module> moduleList = moduleService.findModuleByUserId(user.getId());
             session.setAttribute("moduleList",moduleList);
+            //查询用户的邮件
+            List<Email> emailList = emailService.findByUserId(user.getId());
+            session.setAttribute("emailList", emailList);
             return "home/main";
 
         } catch (AuthenticationException e) {
@@ -102,6 +109,7 @@ public class LoginController extends BaseController {
         SecurityUtils.getSubject().logout();
         // 释放资源
         session.removeAttribute("loginUser");
+        session.removeAttribute("emailList");
         // 销毁session
         session.invalidate();
         // 注销后跳转到登陆

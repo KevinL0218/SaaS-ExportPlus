@@ -1,15 +1,22 @@
 package cn.itcast.web.task;
 
+import java.util.Date;
+
 import cn.itcast.domain.cargo.Contract;
 import cn.itcast.domain.cargo.ContractExample;
+import cn.itcast.domain.system.Email;
 import cn.itcast.domain.system.User;
 import cn.itcast.service.cargo.ContractService;
+import cn.itcast.service.system.EmailService;
 import cn.itcast.service.system.UserService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -23,6 +30,10 @@ public class MyTask {
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private UserService userService;
+    @Autowired
+    protected HttpSession session;
+    @Autowired
+    private EmailService emailService;
 
     /**
      * 定时执行的任务方法
@@ -59,6 +70,20 @@ public class MyTask {
                     map.put("content", "交货期限将至！");
                     // 发送消息
                     rabbitTemplate.convertAndSend("myExchange", "msg.email", map);
+                    Email email1 = new Email();
+                    email1.setEmailId(UUID.randomUUID().toString());
+                    email1.setUserId(user.getId());
+                    email1.setEmailTime(new Date());
+                    email1.setEmailTitle(map.get("title"));
+                    email1.setEmailContent(map.get("content"));
+                    emailService.saveEmail(email1);
+                    if (!ObjectUtils.isEmpty(session.getAttribute("loginUser"))) {
+                        User loginUser = (User) session.getAttribute("loginUser");
+                        if (Objects.equals(user.getId(), loginUser.getId())) {
+                            List<Email> emailList = emailService.findByUserId(user.getId());
+                            session.setAttribute("emailList", emailList);
+                        }
+                    }
                 }
             }
 
