@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.dao.cargo.InvoiceDao">
+  <resultMap id="BaseResultMap" type="cn.itcast.domain.cargo.Invoice">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="sc_no" jdbcType="VARCHAR" property="scNo" />
+    <result column="trade_terms" jdbcType="VARCHAR" property="tradeTerms" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="invoice_status" jdbcType="CHAR" property="invoiceStatus" />
+    <result column="pickup_photo" jdbcType="VARCHAR" property="pickupPhoto" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_dept" jdbcType="VARCHAR" property="createDept" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sc_no, trade_terms, money, invoice_status, pickup_photo, create_by, create_dept, 
+    create_time
+  </sql>
+  <select id="selectByExample" parameterType="cn.itcast.domain.cargo.InvoiceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from co_invoice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from co_invoice
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from co_invoice
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.itcast.domain.cargo.Invoice">
+    insert into co_invoice (id, sc_no, trade_terms, 
+      money, invoice_status, pickup_photo, 
+      create_by, create_dept, create_time
+      )
+    values (#{id,jdbcType=VARCHAR}, #{scNo,jdbcType=VARCHAR}, #{tradeTerms,jdbcType=VARCHAR}, 
+      #{money,jdbcType=VARCHAR}, #{invoiceStatus,jdbcType=CHAR}, #{pickupPhoto,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDept,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.itcast.domain.cargo.Invoice">
+    insert into co_invoice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="scNo != null">
+        sc_no,
+      </if>
+      <if test="tradeTerms != null">
+        trade_terms,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status,
+      </if>
+      <if test="pickupPhoto != null">
+        pickup_photo,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDept != null">
+        create_dept,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="scNo != null">
+        #{scNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeTerms != null">
+        #{tradeTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        #{invoiceStatus,jdbcType=CHAR},
+      </if>
+      <if test="pickupPhoto != null">
+        #{pickupPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDept != null">
+        #{createDept,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.itcast.domain.cargo.Invoice">
+    update co_invoice
+    <set>
+      <if test="scNo != null">
+        sc_no = #{scNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeTerms != null">
+        trade_terms = #{tradeTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status = #{invoiceStatus,jdbcType=CHAR},
+      </if>
+      <if test="pickupPhoto != null">
+        pickup_photo = #{pickupPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDept != null">
+        create_dept = #{createDept,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.itcast.domain.cargo.Invoice">
+    update co_invoice
+    set sc_no = #{scNo,jdbcType=VARCHAR},
+      trade_terms = #{tradeTerms,jdbcType=VARCHAR},
+      money = #{money,jdbcType=VARCHAR},
+      invoice_status = #{invoiceStatus,jdbcType=CHAR},
+      pickup_photo = #{pickupPhoto,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_dept = #{createDept,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
