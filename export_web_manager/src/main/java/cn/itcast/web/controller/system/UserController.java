@@ -44,8 +44,8 @@ public class UserController extends BaseController {
                        @RequestParam(defaultValue = "5") Integer pageSize){
 
         /* 权限校验*/
-        //Subject subject = SecurityUtils.getSubject();
-        //subject.checkPermission("用户管理");
+        /*Subject subject = SecurityUtils.getSubject();
+        subject.checkPermission("用户管理");*/
 
         log.info("执行用户列表查询开始....");
         String companyId = getLoginCompanyId();

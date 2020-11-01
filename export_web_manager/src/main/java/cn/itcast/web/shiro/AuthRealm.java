@@ -49,6 +49,7 @@ public class AuthRealm extends AuthorizingRealm{
     // 授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        this.setAuthorizationCachingEnabled(true);
         /* 需求： 查询登陆用户的权限，返回给realm的授权方法 */
         // 获取用户id (获取的是认证方法返回的对象中封装的用户信息)
         User user = (User) principals.getPrimaryPrincipal();
