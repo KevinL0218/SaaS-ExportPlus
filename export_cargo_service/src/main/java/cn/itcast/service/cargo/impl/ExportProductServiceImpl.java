@@ -25,6 +25,7 @@ public class ExportProductServiceImpl implements ExportProductService{
         PageHelper.startPage(pageNum,pageSize);
         List<ExportProduct> list = exportProductDao.selectByExample(exportProductExample);
         return new PageInfo<>(list);
+
     }
 
     @Override

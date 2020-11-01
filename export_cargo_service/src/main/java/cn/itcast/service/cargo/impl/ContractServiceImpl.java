@@ -1,8 +1,9 @@
 package cn.itcast.service.cargo.impl;
 
 import cn.itcast.dao.cargo.ContractDao;
-import cn.itcast.domain.cargo.Contract;
-import cn.itcast.domain.cargo.ContractExample;
+import cn.itcast.dao.cargo.ContractProductDao;
+import cn.itcast.dao.cargo.ExtCproductDao;
+import cn.itcast.domain.cargo.*;
 import cn.itcast.service.cargo.ContractService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,10 @@ public class ContractServiceImpl implements ContractService{
 
     @Autowired
     private ContractDao contractDao;
+    @Autowired
+    private ContractProductDao contractProductDao;
+    @Autowired
+    private ExtCproductDao extCproductDao;
 
     @Override
     public PageInfo<Contract> findByPage(ContractExample contractExample,
@@ -58,6 +63,26 @@ public class ContractServiceImpl implements ContractService{
 
     @Override
     public void delete(String id) {
+        // 通过合同id查询货物
+        ContractProductExample cpExample = new ContractProductExample();
+        cpExample.createCriteria().andContractIdEqualTo(id);
+        List<ContractProduct> cpList = contractProductDao.selectByExample(cpExample);
+        // 遍历并删除货物
+        for (ContractProduct contractProduct : cpList) {
+            contractProductDao.deleteByPrimaryKey(contractProduct.getId());
+        }
+
+        // 通过合同id查询附件
+        ExtCproductExample extCproductExample = new ExtCproductExample();
+        extCproductExample.createCriteria().andContractIdEqualTo(id);
+        List<ExtCproduct> extCproductList = extCproductDao.selectByExample(extCproductExample);
+
+        // 遍历并删除附件
+        for (ExtCproduct extCproduct : extCproductList) {
+            extCproductDao.deleteByPrimaryKey(extCproduct.getId());
+        }
+
+        // 删除合同
         contractDao.deleteByPrimaryKey(id);
     }
 
