@@ -119,18 +119,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="odd" onmouseover="this.className='highlight'" onmouseout="this.className='odd'" >
-                        <td><input type="checkbox" name="id" value="1"/></td>
-                        <td>1</td>
-                        <td>SCNO</td>
-                        <td>条款1</td>
-                        <td>5200</td>
-                        <td>2020-10-31 20:10:33</td>
-                        <td>
-                            <c:if test="${o.invoiceStatus==0}">草稿</c:if>
-                            <c:if test="${o.invoiceStatus==1}"><font color="green">已生成财务报运单</font></c:if>
-                        </td>
-                    </tr>
                     <c:forEach items="${pageInfo.list}"  var="o" varStatus="status">
                         <tr class="odd" onmouseover="this.className='highlight'" onmouseout="this.className='odd'" >
                             <td><input type="checkbox" name="id" value="${o.id}"/></td>
