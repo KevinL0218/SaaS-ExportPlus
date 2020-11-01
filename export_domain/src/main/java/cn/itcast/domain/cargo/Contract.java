@@ -27,7 +27,7 @@ public class Contract extends BaseEntity {
 	private String tradeTerms;		//贸易条款
 	private String printStyle;		//打印板式，1打印一个货物2打印两个货物
 	private String remark;			//备注
-	private Integer state;			//状态：0草稿 1已上报待报运	2 已报运
+	private Integer state;			//状态：0草稿 1 已提交 2已上报待报运	3 已报运
 	private Integer proNum; //货物数量
 	private Integer extNum; //附件数量
 

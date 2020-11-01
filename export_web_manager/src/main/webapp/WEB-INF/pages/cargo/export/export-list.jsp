@@ -160,7 +160,7 @@
                             <td>${o.priceCondition}</td>
                             <td>
                                 <c:if test="${o.state==0}">草稿</c:if>
-                                <c:if test="${o.state==1}"><font color="green">已上报</font></c:if>
+                                <c:if test="${o.state==1}"><font color="green">已生成报运单</font></c:if>
                                 <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>
                             </td>
                             <td>

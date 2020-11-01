@@ -16,7 +16,7 @@ import java.util.UUID;
 
 // com.alibaba.dubbo.config.annotation.Service
 @Service
-public class ContractServiceImpl implements ContractService{
+public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private ContractDao contractDao;
@@ -28,7 +28,7 @@ public class ContractServiceImpl implements ContractService{
     @Override
     public PageInfo<Contract> findByPage(ContractExample contractExample,
                                          int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         List<Contract> list = contractDao.selectByExample(contractExample);
         return new PageInfo<>(list);
     }
@@ -63,14 +63,11 @@ public class ContractServiceImpl implements ContractService{
 
     @Override
     public Boolean delete(String id) {
-        //已经提交（state 为1，2）的合同不能删除
+        //已审核及其之后状态的合同不能删除
         //根据id查询购销合同信息
         Contract contract = contractDao.selectByPrimaryKey(id);
         Integer state = contract.getState();
-        if (state==1 || state==2){
-            //不能删除
-            return false;
-        }else {
+        if (state == 0 || state == 7) {
             //删除其购销合同下所有的货物和附件
             //通过购销合同id 删除货物
             ContractProductExample pExample = new ContractProductExample();
@@ -90,12 +87,16 @@ public class ContractServiceImpl implements ContractService{
             //删除合同
             contractDao.deleteByPrimaryKey(id);
             return true;
-        }
+        }else {
+            //不能删除
+            return false;
     }
+
+}
 
     @Override
     public PageInfo<Contract> findContractByDeptId(String deptId, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         List<Contract> list = contractDao.findContractByDeptId(deptId);
         return new PageInfo<>(list);
     }
