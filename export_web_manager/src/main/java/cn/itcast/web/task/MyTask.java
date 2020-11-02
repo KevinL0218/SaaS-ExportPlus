@@ -67,7 +67,7 @@ public class MyTask {
                     Map<String, String> map = new HashMap<>();
                     map.put("email", "17806707053@163.com");//先用自己邮箱测试
                     map.put("title", "交货期限临近提醒");
-                    map.put("content", "交货期限将至！");
+                    map.put("content", "尊敬的客户，请在3天内交货！");
                     // 发送消息
                     rabbitTemplate.convertAndSend("myExchange", "msg.email", map);
                     Email email1 = new Email();
