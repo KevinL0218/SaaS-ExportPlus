@@ -89,6 +89,10 @@
                     </div>
                 </div>
         </div>
+        <%--!--工具栏--%>
+        <div class="box-tools text-center">
+            <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
+        </div>
     </section>
 </div>
 <!-- 内容区域 /-->

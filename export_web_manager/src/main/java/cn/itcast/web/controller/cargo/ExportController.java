@@ -210,4 +210,27 @@ public class ExportController extends BaseController {
         exportService.updatExport(exportResult);
         return "redirect:/cargo/export/list";
     }
+
+    /**
+     * 查看报运单
+     * @param id
+     * @return
+     */
+    @RequestMapping("/toView")
+    public String toView(String id){
+        // 1. 根据报运单的id查询报运单
+        Export export = exportService.findById(id);
+
+        // 2. 根据报运单的id查询报运的商品
+        ExportProductExample example = new ExportProductExample();
+        example.createCriteria().andExportIdEqualTo(id);
+        List<ExportProduct> eps = exportProductService.findAll(example);
+
+        // 3. 保存
+        request.setAttribute("export",export);
+        request.setAttribute("eps",eps);
+
+        // 4. 跳转到修改页面
+        return "cargo/export/export-view";
+    }
 }

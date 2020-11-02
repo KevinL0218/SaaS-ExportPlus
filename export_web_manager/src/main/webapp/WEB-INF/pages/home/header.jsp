@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu">
                         <li class="header">你有${emailList.size()}个邮件</li>
                         <li>
-                            <ul class="menu" id="email">
+                            <ul class="menu" id="email" onclick="checkEmail()">
 
                                 <script>
                                     $(function () {
@@ -57,7 +57,7 @@
                                                     // alert(createTime);
                                                     html += `
                                                 <li>
-                                        <a href="/email/deleteEmail?emailId=` + emailList[i].emailId + `&userId=` + emailList[i].userId + `">
+                                        <a onclick="checkEmail()" href="/email/deleteEmail?emailId=` + emailList[i].emailId + `&userId=` + emailList[i].userId + `">
                                             <div class="pull-left">
                                                 <img src="../img/user` + (i % 8 + 1) + `-128x128.jpg" class="img-circle"
                                                      alt="User Image">
@@ -77,6 +77,10 @@
                                             }
                                         })
                                     })
+                                    
+                                    function checkEmail() {
+                                        window.open("https://mail.163.com/","_blank").location;
+                                    }
 
                                 </script>
                                 <%--<li>
