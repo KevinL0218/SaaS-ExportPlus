@@ -29,6 +29,8 @@ public class ModuleServiceImpl implements ModuleService {
     @Autowired
     private UserDao userDao;
 
+    private JedisPool pool;
+
     @Override
     public List<Module> findAll() {
         //1.创建配置对象
@@ -38,7 +40,7 @@ public class ModuleServiceImpl implements ModuleService {
         //设置最长等待时间
         config.setMaxWaitMillis(2000);
         //2.创建连接池对象
-        JedisPool pool = new JedisPool(config, "localhost", 6379);
+        pool = new JedisPool(config, "localhost", 6379);
         //3.从连接池中获取连接
         Jedis jedis = pool.getResource();
 
@@ -112,6 +114,11 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public void save(Module module) {
+        //从连接池中获取连接
+        Jedis jedis = pool.getResource();
+        //删除redis中的权限（添加新权限之后应该重新从数据库中获取权限）
+        jedis.del("modules");
+
         module.setId(UUID.randomUUID().toString());
         moduleDao.save(module);
     }
