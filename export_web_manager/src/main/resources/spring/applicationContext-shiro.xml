@@ -34,7 +34,7 @@
                 /plugins/** = anon
                 /login.jsp = anon
                 /login.do = anon
-               <!-- /system/user/list* = perms['用户管理']-->
+                /system/user/list* = perms['用户管理']
                 /** = authc
             </value>
         </property>
@@ -42,7 +42,9 @@
 
     <!--2、创建SecurityManager对象,注入realm-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--关联realm-->
         <property name="realm" ref="myRealm"/>
+        <!--关联缓存-->
         <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
@@ -54,7 +56,6 @@
     <bean id="myRealm" class="cn.itcast.web.shiro.AuthRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
     </bean>
-
 
     <!--4. 创建凭证匹配器，用于自动对用户输入的密码进行加密
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -72,6 +73,4 @@
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
-
-
 </beans>

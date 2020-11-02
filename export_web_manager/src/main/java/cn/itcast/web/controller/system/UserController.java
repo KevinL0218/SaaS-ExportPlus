@@ -46,8 +46,8 @@ public class UserController extends BaseController {
 
 
         /* 权限校验*/
-        //Subject subject = SecurityUtils.getSubject();
-        //subject.checkPermission("用户管理");
+        /*Subject subject = SecurityUtils.getSubject();
+        subject.checkPermission("用户管理");*/
 
 
        Subject subject = SecurityUtils.getSubject();

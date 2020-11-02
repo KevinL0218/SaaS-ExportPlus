@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class StatProvider {
     public static void main(String[] args) throws IOException {
-        // 注意：必须要写classpath* ,因为要加载applicationContexgt-dao.xml
+        // 注意：必须要写classpath* ,因为要加载applicationContext-dao.xml
         ApplicationContext ac =
                 new ClassPathXmlApplicationContext("classpath*:spring/applicationContext-*.xml");
         System.in.read();
