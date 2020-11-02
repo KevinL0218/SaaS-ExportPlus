@@ -31,23 +31,32 @@
     function deleteById() {
         var id = getCheckId()
         if(id) {
-            $.ajax({
-                url: "${ctx}/cargo/packing/delete.do?id="+id,
-                method: "post",
-                dataType: "json",
-                success: function (result) {
-                    alert(result.msg);
-                    window.location.reload();
-                },
-                error: function () {
-                    alert("删除装箱单失败！")
-                }
-            })
+            if (confirm("确定删除这条记录吗？")) {
+                $.ajax({
+                    url: "${ctx}/cargo/packing/delete.do?id="+id,
+                    method: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result.msg);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("删除装箱单失败！")
+                    }
+                })
+            }
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
-
+    function submit() {
+        var id = getCheckId()
+        if(id) {
+            document.getElementById('exportForm').submit();
+        }else{
+            alert("请勾选待处理的记录，且每次只能勾选一个")
+        }
+    }
 
 </script>
 <body>
@@ -83,7 +92,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" title="查看" onclick='view()'><i class="fa  fa-eye-slash"></i> 查看</button>
                             <button type="button" class="btn btn-default" title="删除" onclick='deleteById()'><i class="fa fa-print"></i> 删除</button>
-                            <button type="button" class="btn btn-default" title="报运" onclick="document.getElementById('exportForm').submit()"><i class="fa fa-refresh"></i> 生产委托书</button>
+                            <button type="button" class="btn btn-default" title="报运" onclick="submit()"><i class="fa fa-refresh"></i> 生产委托书</button>
                         </div>
                     </div>
                 </div>
@@ -115,7 +124,7 @@
                     <form id="exportForm" action="/cargo/shipping/toAdd.do" method="post">
                         <c:forEach items="${pageInfo.list}" var="o" varStatus="status">
                             <tr>
-                                <td><input type="checkbox" name="packingListId" value="${o.packingListId}"/></td>
+                                <td><input type="checkbox" name="id" value="${o.packingListId}"/></td>
                                 <td><a href="${ctx}/cargo/packing/toView.do?id=${o.packingListId}">${o.exportNos}</a></td>
                                 <td>${o.totalVolume}</td>
                                 <td>${o.netWeights}</td>

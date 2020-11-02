@@ -666,72 +666,72 @@ public class ShippingOrderExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarIsNull() {
+        public Criteria andPortOfDischargeIsNull() {
             addCriterion("port_of_dischar is null");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarIsNotNull() {
+        public Criteria andPortOfDischargeIsNotNull() {
             addCriterion("port_of_dischar is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarEqualTo(String value) {
+        public Criteria andPortOfDischargeEqualTo(String value) {
             addCriterion("port_of_dischar =", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarNotEqualTo(String value) {
+        public Criteria andPortOfDischargeNotEqualTo(String value) {
             addCriterion("port_of_dischar <>", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarGreaterThan(String value) {
+        public Criteria andPortOfDischargeGreaterThan(String value) {
             addCriterion("port_of_dischar >", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarGreaterThanOrEqualTo(String value) {
+        public Criteria andPortOfDischargeGreaterThanOrEqualTo(String value) {
             addCriterion("port_of_dischar >=", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarLessThan(String value) {
+        public Criteria andPortOfDischargeLessThan(String value) {
             addCriterion("port_of_dischar <", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarLessThanOrEqualTo(String value) {
+        public Criteria andPortOfDischargeLessThanOrEqualTo(String value) {
             addCriterion("port_of_dischar <=", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarLike(String value) {
+        public Criteria andPortOfDischargeLike(String value) {
             addCriterion("port_of_dischar like", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarNotLike(String value) {
+        public Criteria andPortOfDischargeNotLike(String value) {
             addCriterion("port_of_dischar not like", value, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarIn(List<String> values) {
+        public Criteria andPortOfDischargeIn(List<String> values) {
             addCriterion("port_of_dischar in", values, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarNotIn(List<String> values) {
+        public Criteria andPortOfDischargeNotIn(List<String> values) {
             addCriterion("port_of_dischar not in", values, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarBetween(String value1, String value2) {
+        public Criteria andPortOfDischargeBetween(String value1, String value2) {
             addCriterion("port_of_dischar between", value1, value2, "portOfDischarge");
             return (Criteria) this;
         }
 
-        public Criteria andPortOfDischarNotBetween(String value1, String value2) {
+        public Criteria andPortOfDischargeNotBetween(String value1, String value2) {
             addCriterion("port_of_dischar not between", value1, value2, "portOfDischarge");
             return (Criteria) this;
         }

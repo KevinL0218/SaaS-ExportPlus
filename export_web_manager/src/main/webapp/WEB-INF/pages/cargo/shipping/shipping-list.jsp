@@ -23,41 +23,38 @@
         var id = getCheckId()
         if(id) {
             if(confirm("你确认要删除此条记录吗？")) {
-                location.href="${ctx}/cargo/contract/delete.do?id="+id;
+                $.ajax({
+                    url:"${ctx}/cargo/shipping/delete.do?id="+id,
+                    method: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result.msg);
+                        window.location.reload();
+                    }
+                })
             }
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
-/*    function submit() {
+    function  view() {
         var id = getCheckId()
         if(id) {
-            location.href="${ctx}/cargo/contract/submit.do?id="+id;
+            location.href="${ctx}/cargo/shipping/toView.do?id="+id;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
 
-    function cancel() {
+    function toPdf() {
         var id = getCheckId()
         if(id) {
-            location.href="${ctx}/cargo/contract/cancel.do?id="+id;
-        }else{
-            alert("请勾选待处理的记录，且每次只能勾选一个")
-        }
-    }*/
-
-    function view() {
-        var shippingOrderId = getCheckId()
-        if(shippingOrderId) {
-            location.href="${ctx}/cargo/contract/toView.do?shippingOrderId="+shippingOrderId;
+            location.href="${ctx}/cargo/shipping/shippingPdf.do?id="+id;
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
-
-
 </script>
 <body>
 <div id="frameContent" class="content-wrapper" style="margin-left:0px;">
@@ -91,9 +88,9 @@
                     <div class="form-group form-inline">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" title="查看" onclick='view()'><i class="fa  fa-eye-slash"></i> 查看</button>
-                            <button type="button" class="btn btn-default" title="删除" onclick='deleteById()'><i class="fa fa-trash-o"></i> 删除</button>
+                            <button type="button" class="btn btn-default" title="删除" onclick='deleteById()'><i class="fa fa-print"></i> 删除</button>
                             <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
-                            <button type="button" class="btn btn-default" title="导出" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 导出Excel/PDF</button>
+                            <button type="button" class="btn btn-default" title="导出" onclick="toPdf()"><i class="fa fa-refresh"></i> 导出PDF</button>
                         </div>
                     </div>
                 </div>
@@ -120,7 +117,7 @@
                         <th class="sorting">信用证</th>
                         <th class="sorting">装运港</th>
                         <th class="sorting">转运港</th>
-                        <th class="sorting">卸货港</th>
+                        <th class="sorting">目的港</th>
                         <th class="sorting">是否分批</th>
                         <th class="sorting">是否转运</th>
                         <th class="sorting">扼要说明</th>
@@ -131,6 +128,7 @@
                     <c:forEach items="${pageInfo.list}" var="o" varStatus="status">
                         <tr>
                             <td><input type="checkbox" name="id" value="${o.shippingOrderId}"/></td>
+                            <td>${o.shippingOrderId}</td>
                             <td>${o.orderType}</td>
                             <td>${o.shipper}</td>
                             <td>${o.consignee}</td>
@@ -138,7 +136,7 @@
                             <td>${o.lcNo}</td>
                             <td>${o.portOfLoading}</td>
                             <td>${o.portOfTrans}</td>
-                            <td>${o.portOfDischar}</td>
+                            <td>${o.portOfDischarge}</td>
                             <td>
                                 <c:if test="${o.isBatch==0}">否</c:if>
                                 <c:if test="${o.isBatch==1}"><font color="green">是</font></c:if>
@@ -154,39 +152,9 @@
                                 <c:if test="${o.state==0}">草稿</c:if>
                                 <c:if test="${o.state==1}"><font color="green">已开票</font></c:if>
                             </td>
-
-
-                         <%--   <td><a href="${ctx}/cargo/contract/toView.do?id=${o.id}">${o.contractNo}</a></td>
-                            <td>${o.proNum}</td>
-                            <td>${o.inputBy}</td>
-                            <td>${o.inspector}</td>
-                            <td><fmt:formatDate value="${o.deliveryPeriod}" pattern="yyyy-MM-dd"/></td>
-                            <td><fmt:formatDate value="${o.shipTime}" pattern="yyyy-MM-dd"/></td>
-                            <td>${o.tradeTerms}</td>
-                            <td>${o.totalAmount}</td>
-                            <td><c:if test="${o.state==0}">草稿</c:if>
-                                <c:if test="${o.state==1}"><font color="green">已上报</font></c:if>
-                                <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>
-                            </td>
-                            <td>
-                                &lt;%&ndash;<a href="${ctx }/cargo/contract/toView.do?id=${o.id}">[查看详情]</a>&ndash;%&gt;
-                                <a href="${ctx }/cargo/contract/toUpdate.do?id=${o.id}">[编辑]</a>
-                                <a href="${ctx }/cargo/contractProduct/list.do?contractId=${o.id}">[货物]</a>
-                                <a href="${ctx }/cargo/contractProduct/toImport.do?contractId=${o.id}">[上传货物]</a>
-                            </td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>
-                    <!--
-                <tfoot>
-                <tr>
-                <th>Rendering engine</th>
-                <th>Browser</th>
-                <th>Platform(s)</th>
-                <th>Engine version</th>
-                <th>CSS grade</th>
-                </tr>
-                </tfoot>-->
                 </table>
                 <!--数据列表/-->
 

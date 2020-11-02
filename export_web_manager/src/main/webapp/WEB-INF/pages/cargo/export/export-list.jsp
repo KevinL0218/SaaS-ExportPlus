@@ -162,6 +162,10 @@
                                 <c:if test="${o.state==0}">草稿</c:if>
                                 <c:if test="${o.state==1}"><font color="green">已生成报运单</font></c:if>
                                 <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>
+                                <c:if test="${o.state==3}"><font color="green">已装箱</font></c:if>
+                                <c:if test="${o.state==4}"><font color="green">已委托</font></c:if>
+                                <c:if test="${o.state==5}"><font color="green">已生产发票</font></c:if>
+                                <c:if test="${o.state==6}"><font color="green">已生产财务报运</font></c:if>
                             </td>
                             <td>
                                 <a href="${ctx }/cargo/export/toView.do?id=${o.id}">[查看]</a>

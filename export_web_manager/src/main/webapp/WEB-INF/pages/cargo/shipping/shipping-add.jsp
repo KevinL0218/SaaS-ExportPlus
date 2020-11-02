@@ -46,8 +46,8 @@
                     <div class="col-md-2 title">运输方式</div>
                     <div class="col-md-4 data">
                         <div class="form-group form-inline">
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.orderType=="海运"?'checked':''} name="state1" value="0">海运</label></div>
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.orderType=="空运"?'checked':''} name="state1" value="0">空运</label></div>
+                            <div class="radio"><label><input type="radio" ${ShippingOrder.orderType=="海运"?'checked':''} name="orderType" value="海运">海运</label></div>
+                            <div class="radio"><label><input type="radio" ${ShippingOrder.orderType=="空运"?'checked':''} name="orderType" value="空运">空运</label></div>
                         </div>
                     </div>
 
@@ -58,27 +58,27 @@
 
                     <div class="col-md-2 title">提单抬头</div>
                     <div class="col-md-4 data">
-                        <input type="text" class="form-control" placeholder="提单抬头" name="consignee" value="${ShippingOrder.consignee}">
+                        <input type="text" class="form-control"  placeholder="提单抬头" name="consignee" value="${ShippingOrder.consignee}">
                     </div>
 
                     <div class="col-md-2 title">正本通知人</div>
-                    <div class="col-md-4 data" style="line-height:34px">
-                        ${export.consignee}
+                    <div class="col-md-4 data">
+                        <input type="text" class="form-control" readonly="readonly"  placeholder="正本通知人" name="notifyParty" value="${export.consignee}">
                     </div>
 
                     <div class="col-md-2 title">信用证号</div>
-                    <div class="col-md-4 data" style="line-height:34px">
-                        ${export.lcno}
+                    <div class="col-md-4 data">
+                        <input type="text" class="form-control" readonly="readonly"  placeholder="信用证号" name="lcNo" value="${export.lcno}">
                     </div>
 
                     <div class="col-md-2 title">唛头</div>
-                    <div class="col-md-4 data" style="line-height:34px">
-                        ${packing.marks}
+                    <div class="col-md-4 data">
+                        <input type="text" class="form-control" readonly="readonly"  placeholder="唛头" name="marks" value="${packing.marks}">
                     </div>
 
                     <div class="col-md-2 title">装运港</div>
-                    <div class="col-md-4 data" style="line-height:34px">
-                        ${export.shipmentPort}
+                    <div class="col-md-4 data">
+                        <input type="text" class="form-control" readonly="readonly"  placeholder="装运港" name="portOfLoading" value="${export.shipmentPort}">
                     </div>
 
                     <div class="col-md-2 title">转运港</div>
@@ -86,24 +86,24 @@
                         <input type="text" class="form-control" placeholder="转运港" name="portOfTrans" value="${ShippingOrder.portOfTrans}">
                     </div>
 
-                    <div class="col-md-2 title">目的</div>
-                    <div class="col-md-4 data" style="line-height:34px">
-                        ${export.destinationPort}
-                    </div>
+                    <div class="col-md-2 title">目的港</div>
+                    <div class="col-md-4 data">
+                        <input type="text" class="form-control" readonly="readonly"  placeholder="目的港" name="portOfDischarge" value="${export.destinationPort}">
+                </div>
 
                     <div class="col-md-2 title">是否分批</div>
                     <div class="col-md-4 data">
                         <div class="form-group form-inline">
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==1?'checked':''} name="state2" value="1">是</label></div>
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==0?'checked':''} name="state2" value="0">否</label></div>
+                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==1?'checked':''} name="isBatch" value="1">是</label></div>
+                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==0?'checked':''} name="isBatch" value="0">否</label></div>
                         </div>
                     </div>
 
                     <div class="col-md-2 title">是否转运</div>
                     <div class="col-md-4 data">
                         <div class="form-group form-inline">
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==1?'checked':''} name="state3" value="1">是</label></div>
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==0?'checked':''} name="state3" value="0">否</label></div>
+                            <div class="radio"><label><input type="radio" ${ShippingOrder.isTrans==1?'checked':''} name="isTrans" value="1">是</label></div>
+                            <div class="radio"><label><input type="radio" ${ShippingOrder.isTrans==0?'checked':''} name="isTrans" value="0">否</label></div>
                         </div>
                     </div>
 

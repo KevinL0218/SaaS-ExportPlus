@@ -44,4 +44,10 @@ public interface PackingService {
      * @return
      */
     Packing selectByPrimaryKey(String packingListId);
+
+    /**
+     * 修改
+     * @param packing
+     */
+    void update(Packing packing);
 }

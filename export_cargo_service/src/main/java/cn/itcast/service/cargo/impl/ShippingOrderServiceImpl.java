@@ -59,7 +59,7 @@ public class ShippingOrderServiceImpl implements ShippingOrderService {
      */
     @Override
     public void save(ShippingOrder shippingOrder) {
-        shippingOrderDao.insert(shippingOrder);
+        shippingOrderDao.insertSelective(shippingOrder);
     }
 
     /**
@@ -68,7 +68,12 @@ public class ShippingOrderServiceImpl implements ShippingOrderService {
      * @param shippingOrderId
      */
     @Override
-    public void delete(String shippingOrderId) {
+    public Boolean delete(String shippingOrderId) {
+        ShippingOrder shippingOrder = shippingOrderDao.selectByPrimaryKey(shippingOrderId);
+        if(shippingOrder.getState() == 1){
+            return false;
+        }
         shippingOrderDao.deleteByPrimaryKey(shippingOrderId);
+        return true;
     }
 }

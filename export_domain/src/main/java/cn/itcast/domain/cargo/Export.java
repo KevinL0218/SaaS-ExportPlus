@@ -24,7 +24,7 @@ public class Export extends BaseEntity implements Serializable{
 	private Integer boxNums;			//冗余，为委托服务，一个报运的总箱数
 	private Double grossWeights;		//冗余，为委托服务，一个报运的总毛重
 	private Double measurements;		//冗余，为委托服务，一个报运的总体积
-	private Integer state;				//0-草稿 1-已上报 2-装箱 3-委托 4-发票 5-财务
+	private Integer state;				//0-草稿 1-已上报 2-已报运 3-装箱 4-委托 5-发票 6-财务
 	private Integer proNum; //货物数量
 	private Integer extNum; //附件数量
 

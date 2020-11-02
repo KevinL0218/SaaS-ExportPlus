@@ -19,7 +19,8 @@
 </head>
 <body>
 <div id="frameContent" class="content-wrapper" style="margin-left:0px;">
-    <!-- 内容头部 -->
+
+    <!--工具栏-->
     <section class="content-header">
         <h1>
             货运管理
@@ -31,82 +32,74 @@
             <li class="active">新增出口报运单</li>
         </ol>
     </section>
-    <!-- 内容头部 /-->
-
-    <!-- 正文区域 -->
+    <!--工具栏/-->
+    <!-- 内容头部 -->
     <section class="content">
-
         <!--订单信息-->
         <div class="panel panel-default">
             <div class="panel-heading">用户信息</div>
                 <div class="row data-type" style="margin: 0px">
+
                     <div class="col-md-2 title">运输方式</div>
-                    <div class="col-md-4 data">
-                        <div class="form-group form-inline">
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.orderType=="海运"?'checked':''} name="state" value="0">海运</label></div>
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.orderType=="空运"?'checked':''} name="state" value="0">空运</label></div>
-                        </div>
+                    <div class="col-md-4 data" style="line-height:34px">
+                        ${shippingOrder.orderType}
                     </div>
 
                     <div class="col-md-2 title">货主</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${ShippingOrder.shipper}
+                        ${shippingOrder.shipper}
                     </div>
 
                     <div class="col-md-2 title">提单抬头</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${ShippingOrder.consignee}
+                        ${shippingOrder.consignee}
                     </div>
 
                     <div class="col-md-2 title">正本通知人</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${ShippingOrder.notifyParty}
+                        ${shippingOrder.notifyParty}
                     </div>
 
                     <div class="col-md-2 title">信用证号</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${Export.lcno}
+                        ${export.lcno}
                     </div>
 
                     <div class="col-md-2 title">唛头</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${Export.marks}
+                        ${packing.marks}
                     </div>
 
                     <div class="col-md-2 title">装运港</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${Export.shipmentPort}
+                        ${export.shipmentPort}
                     </div>
 
                     <div class="col-md-2 title">转运港</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${ShippingOrder.portOfTrans}
+                        ${shippingOrder.portOfTrans}
                     </div>
 
                     <div class="col-md-2 title">卸货港</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${Export.destinationPort}
+                        ${export.destinationPort}
                     </div>
 
                     <div class="col-md-2 title">是否分批</div>
-                    <div class="col-md-4 data">
-                        <div class="form-group form-inline">
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==1?'checked':''} name="state" value="1">是</label></div>
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==0?'checked':''} name="state" value="0">否</label></div>
-                        </div>
+                    <div class="col-md-4 data" style="line-height:34px">
+                        ${shippingOrder.isBatch==1?'是':'否'}
                     </div>
 
+
                     <div class="col-md-2 title">是否转运</div>
-                    <div class="col-md-4 data">
-                        <div class="form-group form-inline">
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==1?'checked':''} name="state" value="1">是</label></div>
-                            <div class="radio"><label><input type="radio" ${ShippingOrder.isBatch==0?'checked':''} name="state" value="0">否</label></div>
-                        </div>
+                    <div class="col-md-4 data" style="line-height:34px">
+                        ${shippingOrder.isTrans==1?'是':'否'}
                     </div>
+
 
                     <div class="col-md-2 title">扼要说明</div>
                     <div class="col-md-4 data" style="line-height:34px">
-                        ${ShippingOrder.remark}
+                        ${shippingOrder.remark}
                     </div>
 
                 </div>
@@ -115,13 +108,13 @@
 
 
     </section>
-    <!-- 正文区域 /-->
+    <!-- 内容头部 /-->
 
-    <!--工具栏-->
+    <!-- 正文区域 -->
     <div class="box-tools text-center">
         <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
     </div>
-    <!--工具栏/-->
+    <!-- 正文区域 /-->
 
 </div>
 <!-- 内容区域 /-->

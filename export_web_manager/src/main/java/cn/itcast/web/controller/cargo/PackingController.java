@@ -126,10 +126,10 @@ public class PackingController extends BaseController {
                         if (exportProduct.getSizeHeight() != null && exportProduct.getSizeLength() != null && exportProduct.getSizeWidth() != null){
                             totalVolume += exportProduct.getSizeHeight() * exportProduct.getSizeWidth() * exportProduct.getSizeLength() * exportProduct.getCnumber();
                         }
-                        // 储存所有报运单中的合同号
-                        exportNos += export.getCustomerContract() + ",";
                     }
                 }
+                // 储存所有报运单中的合同号
+                exportNos += export.getCustomerContract() + ",";
             }
             // 计算装箱费用
             packingMoney = grossWeights * 520;
@@ -166,6 +166,7 @@ public class PackingController extends BaseController {
         try {
             log.info("执行装箱列表显示开始...");
             PackingExample packingExample = new PackingExample();
+            packingExample.createCriteria().andCompanyIdEqualTo(getLoginCompanyId());
             PageInfo<Packing> pageInfo = packingService.findByPage(packingExample, pageNum, pageSize);
             model.addObject("pageInfo", pageInfo);
             model.setViewName("cargo/packing/pack-list");

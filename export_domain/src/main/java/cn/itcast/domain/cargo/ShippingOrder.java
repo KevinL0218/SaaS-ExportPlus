@@ -12,7 +12,7 @@ public class ShippingOrder implements Serializable {
     private String lcNo;//信用证
     private String portOfLoading;//装运港
     private String portOfTrans;//转运港
-    private String portOfDischarge;//卸货港
+    private String portOfDischarge;//目的港
     private Date loadingDate;//装期
     private Date limitDate;//效期
     private String isBatch;//是否分批
@@ -91,11 +91,11 @@ public class ShippingOrder implements Serializable {
         this.portOfTrans = portOfTrans == null ? null : portOfTrans.trim();
     }
 
-    public String getPortOfDischar() {
+    public String getPortOfDischarge() {
         return portOfDischarge;
     }
 
-    public void setPortOfDischar(String portOfDischarge) {
+    public void setPortOfDischarge(String portOfDischarge) {
         this.portOfDischarge = portOfDischarge == null ? null : portOfDischarge.trim();
     }
 
@@ -147,11 +147,11 @@ public class ShippingOrder implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getSpecialConditio() {
+    public String getSpecialCondition() {
         return specialCondition;
     }
 
-    public void setSpecialConditio(String specialCondition) {
+    public void setSpecialCondition(String specialCondition) {
         this.specialCondition = specialCondition == null ? null : specialCondition.trim();
     }
 

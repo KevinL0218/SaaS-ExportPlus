@@ -36,6 +36,6 @@ public interface ShippingOrderService {
     /**
      * 删除
      */
-    void delete(String shippingOrderId);
+    Boolean delete(String shippingOrderId);
 
 }
