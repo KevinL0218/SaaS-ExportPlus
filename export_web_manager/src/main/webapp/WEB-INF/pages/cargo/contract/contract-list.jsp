@@ -54,9 +54,9 @@
                     if (result == 0) {
                         location.reload();
                     } else if (result == 1) {
-                        alert("已提交过，无需再次提交！")
+                        alert("审核已过，无需再次提交！")
                     } else if (result == 2) {
-                        alert("当前所选合同您无权审核！")
+                        alert("请耐心等待审单人审核！")
                     }
                 }
             });
@@ -205,6 +205,10 @@
                                     </c:if>
                                     <c:if test="${o.state==1}"><font color="blue">已审核</font></c:if>
                                     <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>
+                                    <c:if test="${o.state==3}"><font color="green">已装箱</font></c:if>
+                                    <c:if test="${o.state==4}"><font color="green">已委托</font></c:if>
+                                    <c:if test="${o.state==5}"><font color="green">已生产发票</font></c:if>
+                                    <c:if test="${o.state==6}"><font color="green">已生产财务报运</font></c:if>
                                 </td>
                                 <td>
                                         <%--<a href="${ctx }/cargo/contract/toView.do?id=${o.id}">[查看详情]</a>--%>

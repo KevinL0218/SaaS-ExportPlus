@@ -180,10 +180,11 @@ public class ContractController extends BaseController {
                         contract.setState(1);
                         contractService.update(contract);
                         return message;
-                    }//不是审单人
-                    else {
-                        return message = 2;
                     }
+                }
+                //不是审单人
+                else {
+                    return message = 2;
                 }
             }
         } else {
@@ -195,6 +196,7 @@ public class ContractController extends BaseController {
         //已经提交过
         return message = 1;
     }
+
 
     @RequestMapping("/cancel")
     @ResponseBody
