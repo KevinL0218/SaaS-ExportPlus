@@ -54,7 +54,7 @@
                     if (result == 0) {
                         location.reload();
                     } else if (result == 1) {
-                        alert("审核已过，无需再次提交！")
+                        alert("已提交过，无需再次提交！")
                     } else if (result == 2) {
                         alert("请耐心等待审单人审核！")
                     }

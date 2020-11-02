@@ -180,11 +180,9 @@ public class ContractController extends BaseController {
                         contract.setState(1);
                         contractService.update(contract);
                         return message;
+                    } else { //不是审单人
+                        return message = 2;
                     }
-                }
-                //不是审单人
-                else {
-                    return message = 2;
                 }
             }
         } else {
@@ -204,17 +202,17 @@ public class ContractController extends BaseController {
         /*提交：修改购销合同状态为0, 草稿*/
         Contract contract = contractService.findById(id);
         //标记
-        Integer message =1;
+        Integer message = 1;
         if (contract.getState() != 7) {
             //不是提交状态
-            return message=0;
+            return message = 0;
         } else {
             // 修改值
             contract.setState(0);
             // 修改： 动态sql
             contractService.update(contract);
 
-            return message ;
+            return message;
         }
     }
 }
