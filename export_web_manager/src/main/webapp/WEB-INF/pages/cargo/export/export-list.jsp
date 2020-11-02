@@ -47,7 +47,19 @@
     function submit() {
         var id = getCheckId()
         if(id) {
-            location.href="${ctx}/cargo/export/submit.do?id="+id;
+            $.get({
+                url:"${ctx}/cargo/export/submit.do?id="+id,
+                dataType:"json",
+                success:function (result) {
+                    //取消成功 1
+                    //不能取消 0
+                    if (result){
+                        location.reload();
+                    }else {
+                        alert("当前报运单状态不能提交，请重试！")
+                    }
+                }
+            });
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
@@ -197,7 +209,7 @@
                             <td>${o.destinationPort}</td>
                             <td>${o.transportMode}</td>
                             <td>${o.priceCondition}</td>
-                            <td>
+                            <td id="stuta">
                                 <c:if test="${o.state==0}">草稿</c:if>
                                 <c:if test="${o.state==1}"><font color="green">已上报</font></c:if>
                                 <c:if test="${o.state==2}"><font color="red">已报运</font></c:if>

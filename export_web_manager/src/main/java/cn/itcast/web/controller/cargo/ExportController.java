@@ -142,13 +142,18 @@ public class ExportController extends BaseController {
      * 报运单的提交、取消
      */
     @RequestMapping("/submit")
-    public String submit(String id) {
-        Export export = new Export();
-        export.setId(id);
-        // 修改状态：已提交的购销合同才可以电子报运
-        export.setState(1);
-        exportService.update(export);
-        return "redirect:/cargo/export/list";
+    @ResponseBody
+    public Integer submit(String id) {
+        Export export = exportService.findById(id);
+        //标记
+        Integer message = 0;
+        if (export.getState() == 0) {
+            // 可以提交
+            export.setState(1);
+            exportService.update(export);
+            message=1;
+        }
+        return message;
     }
 
     @RequestMapping("/cancel")
