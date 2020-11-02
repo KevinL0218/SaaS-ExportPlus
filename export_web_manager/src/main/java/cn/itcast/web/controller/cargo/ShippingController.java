@@ -120,6 +120,20 @@ public class ShippingController extends BaseController {
         //修改装箱单状态为1
         packing.setState(1);
         packingService.update(packing);
+
+
+        // 修改报运单状态为已委托
+        String exportIds = packing.getExportIds();
+        if (exportIds != null && exportIds.length() > 0) {
+            //获取报运单数组
+            String[] split = exportIds.split(",");
+            for (int i = 0; i < split.length; i++) {
+                Export export = exportService.findById(split[0]);
+                //修改报运单状态为4-已委托
+                export.setState(4);
+                exportService.update(export);
+            }
+        }
         return "redirect:/cargo/shipping/list";
     }
 
