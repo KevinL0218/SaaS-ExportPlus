@@ -30,7 +30,7 @@
                             <c:forEach items="${sessionScope.moduleList}" var="item2">
                                 <c:if test="${item2.ctype==1 && item2.parentId == item.id}">
                                     <li id="${item2.id}">
-                                        <a onclick="setSidebarActive(this)" href="${item2.curl}" target="iframe">
+                                        <a onclick="setSidebarActive(this)" href="/${item2.curl}" target="iframe">
                                             <i class="fa fa-circle-o"></i>${item2.name}
                                         </a>
                                     </li>
