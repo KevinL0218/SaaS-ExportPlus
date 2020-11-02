@@ -54,6 +54,20 @@ public class ShippingController extends BaseController {
         return "cargo/shipping/shipping-list";
     }
 
+
+    /**
+     *进入生产委托书前判断装箱状态
+     */
+    @RequestMapping("/judge")
+    @ResponseBody
+    public Boolean judge(String id){
+        Packing packing = packingService.selectByPrimaryKey(id);
+        if(packing.getState() == 0){
+            return true;
+        }
+        return false;
+    }
+
     /**
      *进入生产委托书
      */
@@ -85,7 +99,14 @@ public class ShippingController extends BaseController {
         //设置委托id、装期
         shippingOrder.setShippingOrderId(packingListId);
         shippingOrder.setLoadingDate(packing.getPackingTime());
-        //设置效期、份数、运输要求、运费说明、复核人
+        //设置效期
+        long time = System.currentTimeMillis() + (24 * 60 * 60 * 1000);
+        shippingOrder.setLimitDate(new Date(time));
+
+        //设置份数、运输要求、运费说明
+        shippingOrder.setCopyNum("1");
+        shippingOrder.setSpecialCondition(packing.getDescription());
+        shippingOrder.setFreight(packing.getPackingMoney().toString());
 
         //设置状态、创建人id，创建人所在部门id、创建日期
         shippingOrder.setState(0);

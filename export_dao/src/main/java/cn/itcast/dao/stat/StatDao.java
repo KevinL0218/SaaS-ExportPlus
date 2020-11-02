@@ -21,4 +21,9 @@ public interface StatDao {
      * 需求3：按小时统计访问次数
      */
     List<Map<String,Object>> online();
+
+    /**
+     * 需求4：查看地区的厂家数量
+     */
+    List<Map<String, Object>> address();
 }

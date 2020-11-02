@@ -36,4 +36,14 @@
         SELECT DATE_FORMAT(TIME,'%H') h,COUNT(*) num FROM st_sys_log GROUP BY h
         ) p ON s.a1=p.h
     </select>
+
+    <select id="address" resultType="java.util.Map">
+        SELECT
+            address name,
+            COUNT(address) value
+        FROM co_factory
+        WHERE 1 = 1
+            AND factory_name IS NOT NULL
+        GROUP BY name
+    </select>
 </mapper>

@@ -181,7 +181,10 @@ public class ContractProductController extends BaseController {
             // 注意： 必须要设置购销合同ID  【不要忘记， 查看表...】
             cp.setContractId(contractId);
             // 设置厂家id
-            Factory factory = factoryService.findByName(cp.getFactoryName());
+            FactoryExample factoryExample = new FactoryExample();
+            factoryExample.createCriteria().andFactoryNameEqualTo(cp.getFactoryName());
+            // Factory factory = factoryService.findByName(cp.getFactoryName());
+            Factory factory = (Factory) factoryService.findAll(factoryExample);
             if (factory != null){
                 cp.setFactoryId(factory.getId());
             }

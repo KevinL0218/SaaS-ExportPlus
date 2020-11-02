@@ -49,14 +49,36 @@
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
     }
+
     function submit() {
+        var id = getCheckId()
+        if(id) {
+            $.ajax({
+                url: "${ctx}/cargo/shipping/judge.do?id=" + id,
+                method: "post",
+                dataType: "json",
+                success: function (result) {
+                    if(result){
+                        location.href="${ctx}/cargo/shipping/toAdd.do?id="+id;
+                    }else {
+                        alert("选择的装箱单[" + id + "]为已委托，不能重复委托！")
+                    }
+                }
+            })
+        }
+        else{
+            alert("请勾选待处理的记录，且每次只能勾选一个")
+        }
+    }
+
+/*    function submit() {
         var id = getCheckId()
         if(id) {
             document.getElementById('exportForm').submit();
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
-    }
+    }*/
 
 </script>
 <body>
@@ -92,7 +114,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" title="查看" onclick='view()'><i class="fa  fa-eye-slash"></i> 查看</button>
                             <button type="button" class="btn btn-default" title="删除" onclick='deleteById()'><i class="fa fa-print"></i> 删除</button>
-                            <button type="button" class="btn btn-default" title="报运" onclick="submit()"><i class="fa fa-refresh"></i> 生产委托书</button>
+                            <button type="button" class="btn btn-default" title="生产委托书" onclick="submit()"><i class="fa fa-refresh"></i> 生产委托书</button>
                         </div>
                     </div>
                 </div>
@@ -121,7 +143,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <form id="exportForm" action="/cargo/shipping/toAdd.do" method="post">
+                    <form id="exportForm" action="/cargo/shipping/judge.do" method="post">
                         <c:forEach items="${pageInfo.list}" var="o" varStatus="status">
                             <tr>
                                 <td><input type="checkbox" name="id" value="${o.packingListId}"/></td>

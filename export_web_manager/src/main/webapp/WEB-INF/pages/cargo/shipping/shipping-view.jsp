@@ -24,12 +24,10 @@
     <section class="content-header">
         <h1>
             货运管理
-            <small>新增出口报运单</small>
+            <small>委托管理</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li><a href="all-order-manage-list.html">货运管理</a></li>
-            <li class="active">新增出口报运单</li>
         </ol>
     </section>
     <!--工具栏/-->
@@ -37,7 +35,7 @@
     <section class="content">
         <!--订单信息-->
         <div class="panel panel-default">
-            <div class="panel-heading">用户信息</div>
+            <div class="panel-heading">委托管理信息</div>
                 <div class="row data-type" style="margin: 0px">
 
                     <div class="col-md-2 title">运输方式</div>

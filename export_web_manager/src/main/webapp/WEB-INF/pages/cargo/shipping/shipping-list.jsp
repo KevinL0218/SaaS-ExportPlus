@@ -61,7 +61,7 @@
 <section class="content-header">
     <h1>
         货运管理
-        <small>购销合同</small>
+        <small>委托管理</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -75,7 +75,7 @@
     <!-- .box-body -->
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">购销合同列表</h3>
+            <h3 class="box-title">委托管理列表</h3>
         </div>
 
         <div class="box-body">

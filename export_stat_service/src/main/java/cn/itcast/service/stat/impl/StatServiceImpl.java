@@ -27,4 +27,12 @@ public class StatServiceImpl implements StatService {
     public List<Map<String, Object>> online() {
         return statDao.online();
     }
+
+    /**
+     * 需求4：查看地区的厂家数量
+     */
+    @Override
+    public List<Map<String, Object>> address() {
+        return statDao.address();
+    }
 }

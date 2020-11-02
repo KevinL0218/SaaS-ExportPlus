@@ -9,56 +9,77 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-// com.alibaba.dubbo.config.annotation.Service
 @Service
-public class FactoryServiceImpl implements FactoryService{
+public class FactoryServiceImpl implements FactoryService {
 
     @Autowired
     private FactoryDao factoryDao;
 
+    /**
+     * 分页查询
+     * @param factoryExample
+     * @param pageNum
+     * @param pageSize
+     */
     @Override
-    public PageInfo<Factory> findByPage(FactoryExample factoryExample,
-                                         int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public PageInfo<Factory> findByPage(FactoryExample factoryExample, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Factory> list = factoryDao.selectByExample(factoryExample);
         return new PageInfo<>(list);
     }
 
+    /**
+     * 查询所有
+     * @param factoryExample
+     */
     @Override
     public List<Factory> findAll(FactoryExample factoryExample) {
         return factoryDao.selectByExample(factoryExample);
     }
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
     @Override
     public Factory findById(String id) {
         return factoryDao.selectByPrimaryKey(id);
     }
 
+    /**
+     * 新增
+     * @param factory
+     */
     @Override
     public void save(Factory factory) {
-        // 设置id
         factory.setId(UUID.randomUUID().toString());
+        factory.setCreateTime(new Date());
+        factory.setUpdateTime(new Date());
         factoryDao.insertSelective(factory);
     }
 
+    /**
+     * 修改
+     * @param factory
+     */
     @Override
     public void update(Factory factory) {
+        factory.setUpdateTime(new Date());
         factoryDao.updateByPrimaryKeySelective(factory);
     }
 
+    /**
+     * 删除部门
+     * @param id
+     */
     @Override
-    public void delete(String id) {
-        factoryDao.deleteByPrimaryKey(id);
+    public boolean delete(String id) {
+        return factoryDao.deleteByPrimaryKey(id) == 1;
     }
 
-    @Override
-    public Factory findByName(String factoryName) {
-        FactoryExample factoryExample = new FactoryExample();
-        factoryExample.createCriteria().andFactoryNameEqualTo(factoryName);
-        List<Factory> list = factoryDao.selectByExample(factoryExample);
-        return list!=null && list.size()>0  ? list.get(0) : null;
-    }
 }

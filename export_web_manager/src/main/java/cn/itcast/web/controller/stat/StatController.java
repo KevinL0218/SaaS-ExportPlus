@@ -52,4 +52,11 @@ public class StatController extends BaseController {
         List<Map<String, Object>> list = statService.online();
         return list;
     }
+
+    @RequestMapping("/address")
+    @ResponseBody
+    public List<Map<String, Object>> address(){
+        List<Map<String, Object>> list = statService.address();
+        return list;
+    }
 }

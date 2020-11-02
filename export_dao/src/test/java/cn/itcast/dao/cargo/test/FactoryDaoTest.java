@@ -44,7 +44,6 @@ public class FactoryDaoTest {
         // Column 'update_time' cannot be null
         factory.setUpdateTime(new Date());
 
-        factoryDao.updateByPrimaryKey(factory);
     }
 
     /**

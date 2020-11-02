@@ -42,14 +42,8 @@ public interface FactoryService {
     /**
      * 删除
      */
-    void delete(String id);
+    boolean delete(String id);
 
-    /**
-     * 根据厂家名称查询
-     * @param factoryName
-     * @return
-     */
-    Factory findByName(String factoryName);
 }
 
 
