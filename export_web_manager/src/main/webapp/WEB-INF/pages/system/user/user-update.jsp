@@ -144,7 +144,7 @@
 
         <!--工具栏-->
         <div class="box-tools text-center">
-            <button type="button" onclick='document.getElementById("editForm").submit()' class="btn bg-maroon">保存</button>
+            <button type="button" onclick='save()' class="btn bg-maroon">保存</button>
             <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
         </div>
         <!--工具栏/-->
@@ -167,5 +167,13 @@
         autoclose: true,
         format: 'yyyy-mm-dd'
     });
+
+    function save() {
+        if ($("select option:selected").val() != "") {
+            document.getElementById("editForm").submit()
+        } else {
+            alert("亲亲！部门是必选的噢！");
+        }
+    }
 </script>
 </html>
