@@ -204,17 +204,17 @@ public class ContractController extends BaseController {
         /*提交：修改购销合同状态为0, 草稿*/
         Contract contract = contractService.findById(id);
         //标记
-        Integer message = 0;
+        Integer message =1;
         if (contract.getState() != 7) {
             //不是提交状态
-            return message;
+            return message=0;
         } else {
             // 修改值
             contract.setState(0);
             // 修改： 动态sql
             contractService.update(contract);
-            // 重定向到列表
-            return message = 1;
+
+            return message ;
         }
     }
 }

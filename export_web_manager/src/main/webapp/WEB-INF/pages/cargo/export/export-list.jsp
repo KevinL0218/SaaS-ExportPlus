@@ -23,7 +23,21 @@
         var id = getCheckId()
         if(id) {
             if(confirm("你确认要删除此条记录吗？")) {
-                location.href="${ctx}/cargo/export/delete.do?id="+id;
+                $.get({
+                    url:"${ctx}/cargo/export/delete.do?id="+id,
+                    dataType:"json",
+                    success:function (result) {
+                        //删除成功 1
+                        //不能删除 0
+                        if (result){
+                            alert("删除成功！")
+                            location.reload();
+                        }else {
+                            alert("已经报运，不能删除！")
+                        }
+
+                    }
+                });
             }
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
@@ -42,7 +56,20 @@
     function cancel() {
         var id = getCheckId()
         if(id) {
-            location.href="${ctx}/cargo/export/cancel.do?id="+id;
+            $.get({
+                url:"${ctx}/cargo/export/cancel.do?id="+id,
+                dataType:"json",
+                success:function (result) {
+                    //取消成功 1
+                    //不能取消 0
+                    if (result){
+                        location.reload();
+                    }else {
+                        alert("当前报运单状态不能取消，请重试！")
+                    }
+
+                }
+            });
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }
@@ -51,7 +78,19 @@
     function exportE() {
         var id = getCheckId()
         if(id) {
-            location.href="${ctx}/cargo/export/exportE.do?id="+id;
+            $.get({
+                url:"${ctx}/cargo/export/exportE.do?id="+id,
+                dataType:"json",
+                success:function (result) {
+                    //不能报运 0
+                    if (result){
+                        location.reload();
+                    }else {
+                        alert("当前报运单状态不能报运，请重试！")
+                    }
+
+                }
+            });
         }else{
             alert("请勾选待处理的记录，且每次只能勾选一个")
         }

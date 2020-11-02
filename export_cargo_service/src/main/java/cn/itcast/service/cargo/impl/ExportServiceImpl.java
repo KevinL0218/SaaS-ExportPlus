@@ -56,6 +56,8 @@ public class ExportServiceImpl implements ExportService{
     public void save(Export export) {
         // 1. 设置报运单主键id (设置合同号、修改购销合同状态、设置货物数量、附件数量)
         export.setId(UUID.randomUUID().toString());
+        //设置状态
+        export.setState(0);
 
         // 2. 获取购销合同id，多个购销合同id用逗号隔开的
         String contractIds = export.getContractIds();
@@ -72,12 +74,16 @@ public class ExportServiceImpl implements ExportService{
             // 多个合同号用空格隔开
             customerNos += contract.getContractNo() + " ";
 
-            // 2.2 修改购销合同的state=2, 已生成报运
+            // 2.2 修改购销合同的和报运单的state=, 已审核
             contract.setState(2);
+
+
+
             contractDao.updateByPrimaryKeySelective(contract);
         }
         // 2.1.2 设置合同号
         export.setCustomerContract(customerNos);
+
 
         // 定义map集合，保存货物id、商品id（给商品添加附件时候要用到）
         Map<String,String> map = new HashMap<>();
