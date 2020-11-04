@@ -1,11 +1,13 @@
 package cn.itcast.web.controller.cargo;
 
-import cn.itcast.domain.cargo.*;
+import cn.itcast.domain.cargo.Export;
+import cn.itcast.domain.cargo.Packing;
+import cn.itcast.domain.cargo.ShippingOrder;
+import cn.itcast.domain.cargo.ShippingOrderExample;
 import cn.itcast.service.cargo.ExportService;
 import cn.itcast.service.cargo.PackingService;
 import cn.itcast.service.cargo.ShippingOrderService;
 import cn.itcast.web.controller.BaseController;
-import cn.itcast.web.util.BeanMapUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j;
@@ -13,17 +15,15 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletOutputStream;
-import java.awt.*;
 import java.io.InputStream;
-import java.util.*;
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cargo/shipping")

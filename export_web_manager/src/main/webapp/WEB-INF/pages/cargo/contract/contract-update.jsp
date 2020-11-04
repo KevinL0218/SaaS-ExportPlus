@@ -72,7 +72,8 @@
                     <div class="col-md-4 data">
                         <%--<input type="text" class="form-control" placeholder="审单人" name="checkBy" value="${contract.checkBy}">--%>
                         <select class="form-control" onchange="document.getElementById('checkBy').value=this.options[this.selectedIndex].text" name="userId">
-                        <option value="${contract.checkBy}">${contract.checkBy==""?"请选择":contract.checkBy}</option>
+<%--                        <option value="${contract.checkBy}">${contract.checkBy==""?"请选择":contract.checkBy}</option>--%>
+                        <option value="">请选择</option>
                         <c:forEach items="${userList}" var="item">
                             <option ${contract.checkBy == item.userName ?'selected':''} value="${item.id}">${item.userName}</option>
                         </c:forEach>
